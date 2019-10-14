@@ -166,3 +166,57 @@
       }
     })
   ```
+
+  # Vue的响应式-1
+  - 数据变化，页面就会重新渲染
+  - 怎么改？
+  - vue data 在 vm实例对象上 vm.XXX 
+
+  - 为什么这样？
+  > 实现响应式 
+  > 知道数据变了 
+  > Object = { attrs： {}} 
+    > Object.defineProperty 数据劫持  vue 2.0 
+    > proxy alpha beta release vue 3.0 
+
+  - $xxx和_xxx 都是啥？
+  > 
+
+  - 未经过声明的
+  - 未使用的 渲染页面 操作DOM （非常耗费性能）
+
+
+  - 更改数据后，页面会立刻重新渲染吗？
+  > 不会的。页面渲染的操作是异步执行的。
+  > 同步执行栈、异步队列（宏任务、微任务，event loop事件环）
+  > 宏任务：setTimeout
+
+  - vm.$el
+
+  - vm.$nextTick()  this vue实例
+  - Vue.nextTick  this window
+  - 区别？
+
+- $nextTick qiukuai 
+- 微任务
+- 宏任务
+
+```js
+if(typeof Promise !== 'undefined') {
+
+} else if(typeof MutationObsever !== 'undefined') {
+
+} else if(typeof setImmediate !== 'undeifned') {
+
+} else {
+  // setTimeout
+}
+```
+
+- Promise.resolve().then()  微
+- MutationObserver 突变观察 假节点 改动   微
+- setImmediate 宏任务 IE下
+- setTimeout 宏任务
+
+<!-- - messageChannel  -->
+<!-- react -->
