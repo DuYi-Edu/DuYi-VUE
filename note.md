@@ -11,3 +11,7 @@
 - 课程笔记会给你们，所以在学习课程的时候，认真听，认真思考
 - 安装vscode 插件：Markdown Preview Enhanced
 - 课程会先讲解vue语法，先把vue语法学会了之后，在剖析其他的问题
+
+# 开始使用Vue
+vuejs.org
+构造函数 Vue
