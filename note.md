@@ -357,3 +357,23 @@ Vue.nextTick().then(() => {
   ```
 - 曾经vue用过的宏任务
   - MessageChannel 消息通道 宏任务
+
+# Vue的响应式-2
+
+1. 数组
+  > 通过索引的方式更改数组
+  > 更改长度
+
+2. 对象
+  > 增删 对象
+
+- 数组：
+1. 变异方法：push、pop、shift、unshift、splice、sort、reverse
+2. vm.$set(要改谁, 改什么, 改成啥)  Vue.set(要改谁, 改什么, 改成啥)
+3. vm.$delete(要删除谁的值, 删除哪个)
+
+- 对象
+1. vm.$set(要改谁, 改什么, 改成啥)  Vue.set(要改谁, 改什么, 改成啥)
+2. vm.$delete(要删除谁的值, 删除哪个)
+
+- 数据劫持：Object.defineProperty

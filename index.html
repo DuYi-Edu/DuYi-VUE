@@ -9,70 +9,23 @@
 </head>
 <body>
   <div id="app">
-    {{ msg }}
+    {{ deng }}
   </div>
 
   <script>
     const vm = new Vue({
       el: '#app',
       data: {
-        msg: '邓哥：风姿绰约、花枝招展',
-        mrDeng: {
+        dengFamily: ['邓哥', '小刘', '王小宝'],
+        dengWife: ['小刘'],
+        deng: {
           name: '邓旭明',
           age: 88,
-          height: '140cm'
+          son: '王小宝'
         }
       }
     });
 
-    vm.msg = '手如柔荑';
-    console.log(vm.msg, vm.$el.innerText);
-    vm.msg = '肤如凝脂';
-    console.log(vm.msg, vm.$el.innerText);
-    vm.msg = '唇红齿白';
-    console.log(vm.msg, vm.$el.innerText);
-
-    // setTimeout(() => {
-    //   console.log(vm.msg, vm.$el.innerText);
-    // }, 0)
-
-    vm.$nextTick(function () {
-      console.log(this);
-      console.log(vm.msg, vm.$el.innerText);
-    });
-
-    Vue.nextTick(function () {
-      console.log(this);
-
-      console.log(vm.msg, vm.$el.innerText);
-    })
-
-      // vm.$nextTick().then(() => {
-      //   console.log(vm.msg, vm.$el.innerText);
-      // })
-
-      // Vue.nextTick().then(() => {
-      //   console.log(vm.msg, vm.$el.innerText);
-      // })
-
-    // function Ceshi(config) {
-    //   // const this = {};
-    //   // config = {data: {xxx: 'jjj'}}
-
-    //   this.data = config.data;
-    //   this.otherData = config.otherData;
-    //   // for(let key in config.data) {
-    //   //   this[key] = config.data[key];
-    //   // }
-    //   // return this;
-    // }
-
-    // const ceshi = new Ceshi({
-    //   data: {
-    //     msg: 'xxx'
-    //   }
-    // })
-    // console.log(ceshi.data);
   </script>
 </body>
 </html>
