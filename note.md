@@ -483,7 +483,6 @@ Vue.nextTick().then(() => {
   > Object.defineProperty的锅，咱们下节课说~
 
 # 扩展_剖析Vue响应式原理
-# [扩展]利用Object.defineProperty实现响应式
 ```js
 const data = {
   name: 'shanshan',
@@ -559,7 +558,8 @@ function $delete(data, key) {
 
 observer(data);
 ```
-> 响应式的劣势
+> 利用Object.defineProperty实现响应式的劣势
 1. 天生就需要进行递归
-2. 监听不到数组长度的改变
-3. 监听不到对象的增删
+2. 监听不到数组不存在的索引的改变
+3. 监听不到数组长度的改变
+4. 监听不到对象的增删
