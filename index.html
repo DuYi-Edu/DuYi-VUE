@@ -11,38 +11,50 @@
 <body>
 
   <div id="app">
-    <!-- <div v-if="type === 'A'">杉杉老师是最美的</div>
-    <div v-else-if="type === 'B'">杉杉老师，今天好像变瘦了</div>
-    <div v-else-if="type === 'C'">杉杉老师，今天的衣服搭配的真好</div>
-    <div v-else>啥都不说了，杉杉老师绝对最好看了</div> -->
-
-    <!-- <template v-if="show">
-      <div>杉杉</div>
-      <div>杉杉</div>
-      <div>杉杉</div>
-      <div>杉杉</div>
-      <div>杉杉</div>
-    </template> -->
-
-    <!-- <div v-show="show">杉杉老师，今天好像变瘦了</div>
-    <div v-if="show">杉杉老师，今天好像变瘦了</div> -->
-
-    <template v-show="show">
-      <div>杉杉</div>
-      <div>杉杉</div>
-      <div>杉杉</div>
-      <div>杉杉</div>
-      <div>杉杉</div>
-    </template>
+    <!-- <div :[attr]="type" :b="xx" :c="ss"></div> -->
+    <!-- <div v-bind="{name: xx, age: '18', height: '163cm'}"></div> -->
+    <!-- <img :src="'https://' + imgUrl" alt=""> -->
+    <!-- <div :class="{red: isRed}"></div> -->
+    <!-- <div :class="[isRed ? red : '', green]"></div> -->
+    <!-- <div :class="[{ redClass: isRed }, green]"></div> -->
+    <!-- <div :class="{red: isRed}" class="red"></div> -->
+    <!-- <div :style="{color: 'red', width: '100px', 'background-color': 'yellow'}">shanshan</div> -->
+    <!-- <div :style="styleObj">杉杉</div> -->
+    <!-- <div :style="[styleObjA, styleObjB]">shanshan</div> -->
+    <!-- <div :style="{display: ['-webkit-box', '-ms-flexbox', 'flex']}"></div> -->
+    <!-- <svg :view-box.camel="viewBox"></svg> -->
+    <div :text-content.prop="'杉杉'"></div>
   </div>
 
+  <div id="demo"></div>
+
   <script>
+    const demo = document.getElementById('demo');
+    for(let key in demo) {
+      console.log(key);
+    }
 
     const vm = new Vue({
       el: '#app',
       data: {
-        show: "",
-        type: 'D'
+        viewBox: '0 0 100 100',
+        type: 'D',
+        attr: 'a',
+        xx: 'sss',
+        ss: 'xxx',
+        isRed: false,
+        imgUrl: 'pics0.baidu.com/feed/9358d109b3de9c820016661ee87d280f18d84336.png?token=58491d91c77e537d6e006c1ba051239d&s=BF9143874023390108A4B9F103008031',
+        red: 'redClass',
+        green: 'greenClass',
+        styleObjA: {
+          color: 'red',
+          width: '100px',
+          backgroundColor: 'yellow'
+        },
+        styleObjB: {
+          cursor: 'pointer',
+          transform: 'translateX(90px)'
+        }
       }
     })
 

@@ -739,3 +739,48 @@ observer(data);
 2. v-if 有更高的切换开销，v-show 有更高的初始渲染开销，如果需要非常频繁地切换，则使用 v-show 较好，如果在运行时条件很少改变，则使用 v-if 较好
 3. v-show不支持```<template>```元素
 4. v-show不支持v-else/v-else-if
+
+# v-bind指令
+- 动态的绑定一个或多个特性
+- :后的为传递的参数
+- 动态特性名：2.6.10 2.6.0+
+- 缩写 :  v-bind:  -> :
+- v-bind 无参数，且绑定一个对象，键值对为特性
+
+- class & style
+- class
+  - :class="`${isA && 'a'} ${} ${}`"
+  - :class="`${a} ${b}s`"
+  - data={
+    a: 'isA',
+    b: 'isB
+  }
+- [] {}
+## 绑定class
+- 对象语法
+- 数组语法
+- 可以在数组语法中使用对象语法
+
+## 绑定style
+- 对象语法
+
+- 数组语法
+
+- 自动添加前缀
+
+- 多重置
+
+- 修饰符
+modifier v-bind.xx
+  特性会将大写字母转换为小写字母
+- camel √
+  解决这种问题出现
+
+- prop √
+  用于绑定dom属性的
+  innerHTML
+  innerText
+  textContent
+  className
+  
+- sync
