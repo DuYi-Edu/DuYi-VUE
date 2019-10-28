@@ -10,32 +10,43 @@
 </head>
 <body>
 
-  <input type="text">
-  <button>点击</button>
-
   <div id="app">
-    
-    <div v-html="msg"></div>
+    <!-- <div v-if="type === 'A'">杉杉老师是最美的</div>
+    <div v-else-if="type === 'B'">杉杉老师，今天好像变瘦了</div>
+    <div v-else-if="type === 'C'">杉杉老师，今天的衣服搭配的真好</div>
+    <div v-else>啥都不说了，杉杉老师绝对最好看了</div> -->
+
+    <!-- <template v-if="show">
+      <div>杉杉</div>
+      <div>杉杉</div>
+      <div>杉杉</div>
+      <div>杉杉</div>
+      <div>杉杉</div>
+    </template> -->
+
+    <!-- <div v-show="show">杉杉老师，今天好像变瘦了</div>
+    <div v-if="show">杉杉老师，今天好像变瘦了</div> -->
+
+    <template v-show="show">
+      <div>杉杉</div>
+      <div>杉杉</div>
+      <div>杉杉</div>
+      <div>杉杉</div>
+      <div>杉杉</div>
+    </template>
   </div>
 
   <script>
-   const oInput = document.getElementsByTagName('input')[0];
-   const oButton = document.getElementsByTagName('button')[0];
-   let msg = null;
-   
-
-   
 
     const vm = new Vue({
       el: '#app',
       data: {
-        msg: 'hello world'
+        show: "",
+        type: 'D'
       }
     })
 
-    oButton.onclick = function () {
-     vm.msg = oInput.value;
-   }
+    
   </script>
 </body>
 </html>

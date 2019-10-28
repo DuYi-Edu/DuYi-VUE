@@ -683,3 +683,24 @@ observer(data);
     vm.msg = oInput.value;
   }
   ```
+
+# 条件渲染
+- 根据某一个条件，判断是否要展示某一个元素
+
+## v-if
+<div v-if="xxx"></div>
+
+## v-else-if
+- 表示v-if的"v-else-if块"
+- 
+
+## v-else
+- 表示v-if或者v-else-if的“else”块
+
+## v-show
+
+v-show VS v-if
+1. v-if 是惰性的，如果在初始渲染时条件为假，则什么也不做，直到条件第一次变为真时，才会开始渲染条件块。v-show则不管初始条件是什么，元素总是会被渲染，并且只是简单地基于 CSS 进行切换。
+2. v-if 有更高的切换开销，v-show 有更高的初始渲染开销，如果需要非常频繁地切换，则使用 v-show 较好，如果在运行时条件很少改变，则使用 v-if 较好
+3. v-show不支持<template>元素
+4. v-show不支持v-else/v-else-if
