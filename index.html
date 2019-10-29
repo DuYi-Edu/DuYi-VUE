@@ -10,66 +10,99 @@
 <body>
 
   <div id="app">
-    <!-- <div @click="alert('div')" :style="{backgroundColor: 'red'}">
-      <button @click.stop="alert('button')">点击</button>
-    </div> -->
+    <ul v-if="shouldShow">
+      <!-- <li v-for="(person, index) of persons">
+        {{ person.name }}--{{ index }}
+      </li> -->
+      <!-- <li v-for="(value, key, index) of shan">
+        {{ value }}--{{ key }}--{{ index }}
+      </li> -->
+      <!-- <li v-for="item in 10">
+        {{ item }}
+      </li> -->
+      <!-- <li v-for="item in 'shanshan'">
+        {{ item }}
+      </li> -->
 
-    <!-- <form @submit.prevent="onSubmit">
-      <input type="submit">
-    </form> -->
+      <!-- <li></li>
+      <span></span>
+      <li></li>
+      <span></span>
+      <li></li>
+      <span></span>
+      <li></li>
+      <span></span> -->
 
-    <!-- <div @click.capture="alert('div')" :style="{backgroundColor: 'red'}">
-      <button @click="alert('button')">点击</button>
-    </div> -->
+      <!-- <li v-for="person in persons">{{ person.name }}</li>
+      <span v-for="person in persons">{{ person.age }}</span> -->
+      <!-- <template v-for="person in persons">
+        <li>{{ person.name }}</li>
+        <span>{{ person.age }}</span>
+      </template> -->
+      <!-- <li v-for="(person, index) in persons" :key="person.name">
+        {{ person.name }}
+        <input type="text">
+        <button @click="handleClick(index)">下移</button>
+      </li> -->
+      <!-- <button @click="handleClick">点击</button>
+      <li v-for="(person, index) in persons" :key="index">
+        {{ person.name }}
+      </li> -->
 
-    <!-- <div @click.self="alert('div')" :style="{backgroundColor: 'red'}">
-      <button @click="alert('button')">点击</button>
-    </div> -->
-    
-    <!-- <div @click.once="alert('div')" :style="{backgroundColor: 'red'}">
-      <button @click="alert('button')">点击</button>
-    </div> -->
+      <!-- <button @click="show = !show">{{ show ? '显示' : '隐藏'}}</button>
+      <input type="text" v-if="show" key="a">
+      <input type="text" v-else key="b"> -->
 
-    <!-- <div @click.passive="handleClick" :style="{backgroundColor: 'red'}"></div> -->
+      <!-- <li 
+        v-for="person in activePersons"
+        v-if="person.isActive"
+      >
+        {{ person.name }}
+      </li> -->
 
-    <!-- <div @click.prevent.self="handleClick">点击</div>
-    <div @click.self.prevent="handleClick">点击</div> -->
+      <li 
+        v-for="person in persons"
+      >
+        {{ person.name }}
+      </li>
 
-    <!-- <input type="text" @keyup.enter="onSubmit" /> -->
-    <!-- <input type="text" @keyup.caps-lock="onSubmit"> -->
-    <!-- <input type="text" @keyup.13="onSubmit"> -->
-    <!-- <input type="text" @keyup.up="onSubmit">
-    <input type="text" @keyup.arrow-up="onSubmit"> -->
-    <!-- <input type="text" @keyup.v="onSubmit"> -->
-
-    <!-- <input type="text" @keyup.ctrl="onSubmit"> -->
-
-    <!-- <input type="text" @keyup.alt.67="onSubmit"> -->
-
-    <!-- <div @click.ctrl.exact="onSubmit">dianji</div> -->
-
-    <div @click.exact="onSubmit">dianji</div>
-
-
+    </ul>
   </div>
 
   <script>
-    // Vue.config.keyCodes.v = 86;
+    // [1, 2, 3].forEach((item, index) => {
+    //   console.log(item)
+    // })
+
     const vm = new Vue({
       el: '#app',
+      data: {
+        persons: [
+          { name: '杉杉', age: 18, isActive: true},
+          { name: '思彤哥', age: 20, isActive: false},
+          { name: '成哥', age: 22, isActive: false },
+          { name: '邓哥', age: 88, isActive: true },
+        ],
+        activePersons: [],
+        shouldShow: false,
+        shan: {
+          name: '杉杉',
+          age: 18,
+          height: '163cm'
+        },
+        show: true
+      },
       methods: {
-        alert(str) { 
-          alert(str) 
-        },
-        onSubmit () { 
-          console.log('a') 
-        },
-        handleClick () {
-
+        handleClick (index) {
+          // const deleteItem = this.persons.splice(index, 1);
+          // this.persons.splice(index + 1, 0, ...deleteItem);
+          this.persons.reverse();
         }
       }
     })
 
+    vm.activePersons = vm.persons.filter(item => item.isActive);
+    // 计算属性
     
   </script>
 </body>

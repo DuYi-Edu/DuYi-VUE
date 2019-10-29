@@ -1175,3 +1175,62 @@ Vue.config.keyCodes = {
 - .left
 - .right
 - .middle
+
+# 列表渲染
+- 利用v-for指令，基于数据多次渲染元素
+
+## v-for 使用 数组
+(item, index) in arr
+
+## v-for 使用 对象
+(value, key, index) in obj
+
+of in
+
+## v-for 使用 数字
+num in number
+
+## v-for 使用 字符串
+str in string
+
+key 唯一 string/number 
+
+不建议使用index作为他的值
+
+persons: [
+  { name: '杉杉', age: 18 },
+  { name: '思彤哥', age: 20 },
+  { name: '成哥', age: 22 },
+  { name: '邓哥', age: 88 },
+],
+
+index
+```html    
+<li>杉杉</li>     0
+<li>思彤哥</li>   1
+<li>成哥</li>     2 
+<li>邓哥</li>     3
+```
+```html    
+<li>邓哥</li>   0
+<li>成哥</li>   1
+<li>思彤哥</li> 2
+<li>杉杉</li>     3 
+```
+
+name
+```html    
+<li>杉杉</li>     杉杉
+<li>思彤哥</li>   思彤哥
+<li>成哥</li>     成哥
+<li>邓哥</li>     邓哥
+```
+```html    
+<li>邓哥</li>   邓哥
+<li>成哥</li>   成哥
+<li>思彤哥</li> 思彤哥
+<li>杉杉</li>     杉杉
+```
+
+## v-for 和 v-if一同使用
+v-for的优先级比v-if要高
