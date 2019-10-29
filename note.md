@@ -852,3 +852,25 @@ observer(data);
     
   - .sync
     讲解组件时再说
+
+# v-on指令
+- 监听DOM 事件
+- this  Vue实例对象
+- vm.addCounter
+
+- v-bind 动态特性
+- v-on 动态事件 
+- 2.6.0+
+
+- v-bind="{}"
+- v-on="{}"
+- 2.4.0+
+
+- @ @click @input
+
+- 好处？
+  - 轻松定位
+  - 不需要手动绑定事件，viewModel内非常纯粹的逻辑
+  - 自动删除事件监听/事件处理
+
+<!-- 修饰符 -->
