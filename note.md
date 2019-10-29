@@ -854,23 +854,114 @@ observer(data);
     讲解组件时再说
 
 # v-on指令
-- 监听DOM 事件
-- this  Vue实例对象
-- vm.addCounter
+- v-on 指令可以监听 DOM 事件，并在触发时运行一些 JavaScript 代码
+- 事件类型由参数指定
+  ```html
+  <div id="app">
+    <button v-on:click="counter += 1">点击加 1</button>
+    <p>按钮被点击了 {{ counter }} 次</p>
+  </div>
+  ```
+  ```js
+  const vm = new Vue({
+    el: 'app',
+    data: {
+      counter: 0
+    }
+  })
+  ```
+- 但是很多事件处理逻辑是非常复杂的，所以直接把 JavaScript 代码写在 v-on 指令中是不可行的。所以 v-on 还可以接收一个需要调用的方法名称。
+  ```html
+  <div id="app">
+    <!-- `greet` 是在下面定义的方法名 -->
+    <button v-on:click="greet">Greet</button>
+  </div>
+  ```
+  ```js
+  const vm = new Vue({
+    el: '#app',
+    data: {
+      name: '杉杉'
+    },
+    // 在 methods 对象中定义方法
+    methods: {
+      greet: function (e) {
+        // this 在方法里指向当前 Vue 实例
+        alert('Hello ' + this.name + '!')
+        // e 是原生 DOM 事件
+        if (event) {
+          alert(e.target.tagName)
+        }
+      }
+    }
+  })
+  ```
+- methods中的函数，也会直接代理给Vue实例对象，所以可以直接运行：
+  ```js
+    vm.greet();
+  ```
+- 除了直接绑定到一个方法，也可以在内联JavaScript 语句中调用方法：
+  ```html
+  <div id="app">
+    <button v-on:click="say('hi!')">hi!</button>
+    <button v-on:click="say('what?')">what?</button>
+  </div>
+  ```
+  ```js
+  new Vue({
+    el: '#app',
+    methods: {
+      say: function (message) {
+        alert(message)
+      }
+    }
+  })
+  ```
+- 需要在内联语句处理器中访问原始的 DOM 事件时。可以用特殊变量 $event 把它传入方法:
+   ```html
+  <div id="app">
+    <button v-on:click="say('hi!', $event)">hi!</button>
+    <button v-on:click="say('what?', $event)">what?</button>
+  </div>
+  ```
+  ```js
+  new Vue({
+    el: '#app',
+    methods: {
+      say: function (message, e) {
+        alert(message);
+        if(e) {
+          alert(e.target.tagName)
+        }
+      }
+    }
+  })
+  ``` 
 
-- v-bind 动态特性
-- v-on 动态事件 
-- 2.6.0+
+- 可以绑定动态事件,Vue版本需要2.6.0+
+  ```html
+  <div v-on:[event]="handleClick">点击，弹出1</div>  
+  ```
+  ```js
+  const vm = new Vue({
+    el: '#app',
+    data: {
+      event: 'click'
+    },
+    methods: {
+      handleClick () {
+        alert(1);
+      }
+    }
+  })
+  ```
+- 从 2.4.0 开始，v-on 同样支持不带参数绑定一个事件/监听器键值对的对象。注意，当使用对象语法时，是不支持任何修饰符的。
+  ```html
+  <div v-on="{ mousedown: doThis, mouseup: doThat }"></div>
+  ```
+- 简写：```@```
 
-- v-bind="{}"
-- v-on="{}"
-- 2.4.0+
-
-- @ @click @input
-
-- 好处？
-  - 轻松定位
-  - 不需要手动绑定事件，viewModel内非常纯粹的逻辑
-  - 自动删除事件监听/事件处理
-
-<!-- 修饰符 -->
+## 为什么在 HTML 中监听事件?
+1. 扫一眼 HTML 模板便能轻松定位在 JavaScript 代码里对应的方法。
+2. 因为你无须在 JavaScript 里手动绑定事件，你的 ViewModel 代码可以是非常纯粹的逻辑，和 DOM 完全解耦，更易于测试
+3. 当一个 ViewModel 被销毁时，所有的事件处理器都会自动被删除。你无须担心如何清理它们
