@@ -873,72 +873,72 @@ observer(data);
 - 但是很多事件处理逻辑是非常复杂的，所以直接把 JavaScript 代码写在 v-on 指令中是不可行的。所以 v-on 还可以接收一个需要调用的方法名称。
   ```html
   <div id="app">
-    <!-- `greet` 是在下面定义的方法名 -->
-    <button v-on:click="greet">Greet</button>
+    <!-- `addCounter` 是在下面定义的方法名 -->
+    <button v-on:click="addCounter">点击加 1</button>
+    <p>按钮被点击了 {{ counter }} 次</p>
   </div>
   ```
   ```js
   const vm = new Vue({
     el: '#app',
     data: {
-      name: '杉杉'
+      counter: 0
     },
     // 在 methods 对象中定义方法
     methods: {
-      greet: function (e) {
+      addCounter: function (e) {
         // this 在方法里指向当前 Vue 实例
-        alert('Hello ' + this.name + '!')
+        this.counter += 1；
         // e 是原生 DOM 事件
-        if (event) {
-          alert(e.target.tagName)
-        }
+        cosnole.log(e.target)；
       }
     }
   })
   ```
 - methods中的函数，也会直接代理给Vue实例对象，所以可以直接运行：
   ```js
-    vm.greet();
+    vm.addCounter();
   ```
 - 除了直接绑定到一个方法，也可以在内联JavaScript 语句中调用方法：
   ```html
   <div id="app">
-    <button v-on:click="say('hi!')">hi!</button>
-    <button v-on:click="say('what?')">what?</button>
+    <button v-on:click="addCounter(5)">点击加 5</button>
+    <p>按钮被点击了 {{ counter }} 次</p>
   </div>
   ```
   ```js
   new Vue({
     el: '#app',
+    data: {
+      counter: 0
+    },
     methods: {
-      say: function (message) {
-        alert(message)
+      addCounter: function (num) {
+        this.counter += 5;
       }
     }
   })
   ```
-- 需要在内联语句处理器中访问原始的 DOM 事件时。可以用特殊变量 $event 把它传入方法:
+- 在内联语句中使用事件对象时，可以利用特殊变量 $event:
    ```html
   <div id="app">
-    <button v-on:click="say('hi!', $event)">hi!</button>
-    <button v-on:click="say('what?', $event)">what?</button>
+    <button v-on:click="addCounter(5, $event)">点击加 5</button>
+    <p>按钮被点击了 {{ counter }} 次</p>
   </div>
   ```
   ```js
   new Vue({
     el: '#app',
     methods: {
-      say: function (message, e) {
-        alert(message);
-        if(e) {
-          alert(e.target.tagName)
-        }
+      addCounter: function (num, e) {
+        this.counter += 5;
+        cosnole.log(e.target)；        
       }
     }
   })
   ``` 
 
-- 可以绑定动态事件,Vue版本需要2.6.0+
+- 可以绑定动态事件，Vue版本需要2.6.0+
   ```html
   <div v-on:[event]="handleClick">点击，弹出1</div>  
   ```
@@ -955,11 +955,13 @@ observer(data);
     }
   })
   ```
-- 从 2.4.0 开始，v-on 同样支持不带参数绑定一个事件/监听器键值对的对象。注意，当使用对象语法时，是不支持任何修饰符的。
+- 可以不带参数绑定一个对象，Vue版本需要2.4.0+。
+  - { 事件名：事件执行函数 }
+  - 使用此种方法不支持函数传参&修饰符
   ```html
   <div v-on="{ mousedown: doThis, mouseup: doThat }"></div>
   ```
-- 简写：```@```
+- v-on指令简写：```@```
 
 ## 为什么在 HTML 中监听事件?
 1. 扫一眼 HTML 模板便能轻松定位在 JavaScript 代码里对应的方法。
