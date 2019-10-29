@@ -967,3 +967,72 @@ observer(data);
 1. 扫一眼 HTML 模板便能轻松定位在 JavaScript 代码里对应的方法。
 2. 因为你无须在 JavaScript 里手动绑定事件，你的 ViewModel 代码可以是非常纯粹的逻辑，和 DOM 完全解耦，更易于测试
 3. 当一个 ViewModel 被销毁时，所有的事件处理器都会自动被删除。你无须担心如何清理它们
+
+# v-on指令的修饰符
+
+## 事件修饰符
+
+### .stop
+- 阻止事件冒泡
+
+### .prevent
+- 阻止默认事件
+
+### .capture
+- 事件捕获模式
+
+### .self
+- 
+
+### .once
+- 只执行一次
+- 2.1.4+
+
+### .passive
+- 设置的addEventListeners passive 选项
+- 提升移动端的性能
+- 2.3.0+
+
+### 注意
+1. <div @click.prevent.self="handleClick">点击</div> 阻止所有的点击默认事件
+   <div @click.self.prevent="handleClick">点击</div> 阻止对元素本身点击的默认事件
+2. .passive .prevent 不能一起使
+
+## 按键修饰符
+
+## 按键码
+<!-- keyCode 回车 13 -->
+.enter 回车键
+.tab
+.delete 删除键
+.esc
+.space
+.up
+.down
+.left
+.right
+
+<!-- v 86 -->
+Vue.config.keyCodes.v = 86;
+
+Vue.config.keyCodes = {
+  <!-- v: 86, -->
+  <!-- f1: 112, -->
+  <!-- shanShan: 86, -->
+  'shan-shan': 86
+}
+
+<!-- 系统键修饰符 -->
+.ctrl
+.alt
+.shift
+.meta
+
+exact 
+2.5.0+
+
+### 鼠标按钮修饰符
+2.2.0+
+left 
+right 
+middle 
