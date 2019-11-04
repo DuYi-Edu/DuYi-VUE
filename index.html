@@ -6,103 +6,108 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <script src="./vue.js"></script>
+  <link rel="stylesheet" href="./index.css">
 </head>
 <body>
 
   <div id="app">
-    <ul v-if="shouldShow">
-      <!-- <li v-for="(person, index) of persons">
-        {{ person.name }}--{{ index }}
-      </li> -->
-      <!-- <li v-for="(value, key, index) of shan">
-        {{ value }}--{{ key }}--{{ index }}
-      </li> -->
-      <!-- <li v-for="item in 10">
-        {{ item }}
-      </li> -->
-      <!-- <li v-for="item in 'shanshan'">
-        {{ item }}
-      </li> -->
-
-      <!-- <li></li>
-      <span></span>
-      <li></li>
-      <span></span>
-      <li></li>
-      <span></span>
-      <li></li>
-      <span></span> -->
-
-      <!-- <li v-for="person in persons">{{ person.name }}</li>
-      <span v-for="person in persons">{{ person.age }}</span> -->
-      <!-- <template v-for="person in persons">
-        <li>{{ person.name }}</li>
-        <span>{{ person.age }}</span>
-      </template> -->
-      <!-- <li v-for="(person, index) in persons" :key="person.name">
-        {{ person.name }}
-        <input type="text">
-        <button @click="handleClick(index)">下移</button>
-      </li> -->
-      <!-- <button @click="handleClick">点击</button>
-      <li v-for="(person, index) in persons" :key="index">
-        {{ person.name }}
-      </li> -->
-
-      <!-- <button @click="show = !show">{{ show ? '显示' : '隐藏'}}</button>
-      <input type="text" v-if="show" key="a">
-      <input type="text" v-else key="b"> -->
-
-      <!-- <li 
-        v-for="person in activePersons"
-        v-if="person.isActive"
+    <div
+      class="goods"
+      v-for="(goods, goodsIndex) in goodsList"
+      :key="goods.id"
+    >
+      <div class="title">{{ goods.title }}：</div>
+      <ul class="type-list">
+        <li 
+          class="type"
+          :class="{
+            active: typeIndex === goods.index
+          }"
+          v-for="(type, typeIndex) in goods.typeList"
+          :key="type"
+          @click="addFilterHandle(typeIndex, goods, type, goodsIndex)"
+        >{{ type }}</li>
+      </ul>
+    </div>
+    <div
+      class="choose-type"
+    >
+      <div>已选条件:</div>
+      <span 
+        class="no-goods"
+        v-if="!showFilterGoods"
       >
-        {{ person.name }}
-      </li> -->
-
-      <li 
-        v-for="person in persons"
+        暂时没有选择过滤条件
+      </span>
+      <ul 
+        class="filter-list"
+        v-else
       >
-        {{ person.name }}
-      </li>
-
-    </ul>
+        <li v-for="(goods, goodsKey) in filterObj">
+          {{ goods }}
+          <span 
+            class="delete-goods"
+            @click="deleteFilterGoods(goodsKey)"
+          >x</span>
+        </li>
+      </ul>
+    </div>
   </div>
 
   <script>
-    // [1, 2, 3].forEach((item, index) => {
-    //   console.log(item)
-    // })
+  
 
     const vm = new Vue({
       el: '#app',
       data: {
-        persons: [
-          { name: '杉杉', age: 18, isActive: true},
-          { name: '思彤哥', age: 20, isActive: false},
-          { name: '成哥', age: 22, isActive: false },
-          { name: '邓哥', age: 88, isActive: true },
-        ],
-        activePersons: [],
-        shouldShow: false,
-        shan: {
-          name: '杉杉',
-          age: 18,
-          height: '163cm'
-        },
-        show: true
+        filterObj: {},
+        showFilterGoods: false,
+        goodsList: [
+          {
+            title: '上装',
+            typeList: ['全部', '针织衫', '毛呢外套', 'T恤', '羽绒服', '棉衣', '卫衣', '风衣' ],
+            id: 1,
+          },
+          {
+            title: '裤装',
+            typeList: ['全部', '牛仔裤', '小脚/铅笔裤', '休闲裤' ,'打底裤', '哈伦裤'],
+            id: 2,
+          },
+          {
+            title: '裙装',
+            typeList: ['全部', '连衣裙', '半身裙', '长袖连衣裙', '中长款连衣裙'],
+            id: 3,
+          }
+        ]
       },
       methods: {
-        handleClick (index) {
-          // const deleteItem = this.persons.splice(index, 1);
-          // this.persons.splice(index + 1, 0, ...deleteItem);
-          this.persons.reverse();
+        addFilterHandle (typeIndex, goods, type, goodsIndex) {
+          if(type === '全部') {
+            return;
+          }
+
+          this.showFilterGoods = true;
+          goods.index = typeIndex;
+
+          vm.$set(this.filterObj, goodsIndex, type);
+          
+        },
+        deleteFilterGoods (goodsKey) {
+          this.$delete(this.filterObj, goodsKey);
+          this.goodsList[goodsKey].index = 0;
+          this.changeShowFilter();
+        },
+        changeShowFilter () {
+          const filterObjStr = JSON.stringify(this.filterObj);
+          this.showFilterGoods = filterObjStr !== '{}';
         }
       }
     })
 
-    vm.activePersons = vm.persons.filter(item => item.isActive);
-    // 计算属性
+
+    vm.goodsList.forEach(item => vm.$set(item, 'index', 0));
+
+   
     
   </script>
 </body>
