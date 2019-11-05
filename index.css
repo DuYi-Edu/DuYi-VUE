@@ -1,86 +1,88 @@
 * {
-  margin: 0;
   padding: 0;
-}
-
-ul, li {
+  margin: 0;
   list-style: none;
 }
 
-#app {
-  width: 550px;
-  margin: 80px auto;
-  padding: 5px 15px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 12px;
+h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+h2 .mask-num {
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 20px;
+  background-color: #e6e6fa;
   color: #666;
+  font-size: 14px;
 }
 
-#app .goods {
+body {
+  background-color: #cdcdcd;
+}
+
+.container {
+  width: 600px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.header {
+  height: 50px;
+  background-color: #333;
+}
+
+.header .container {
   display: flex;
   align-items: center;
-  border-bottom: 1px dashed #eee;
-  text-indent: 2em;
+  justify-content: space-between;
 }
 
-#app .goods:last-child {
-  border-bottom: none;
-}
-
-#app .goods .type-list {
-  display: flex;
-  text-indent: 0;
-}
-
-#app .goods .type-list .type {
-  margin: 15px 7px;
-  padding: 5px 6px;
-  border-radius: 3px;
-  color: #039;
+.header .container .logo {
+  width: 100px;
+  line-height: 50px;
+  color: #ddd;
+  font-size: 24px;
   cursor: pointer;
 }
 
-#app .goods .type-list .type:hover {
-  color: #f60;
-  background-color: #f3edc2;
+.header .container .input-area {
+  width: 60%;
 }
 
-#app .goods .type-list .type.active {
-  color: #fff;
-  background-color: #f60;
+.header .container .input-area input {
+  width: 80%;
+  height: 24px;
+  text-indent: 10px;
+  border-radius: 5px;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.24), 0 1px 6px rgba(0, 0, 0, 0.45) inset;
+  border: none;
+  outline: none;
 }
 
-#app .choose-type {
+.header .container .input-area button {
+  width: 15%;
+  height: 24px;
+  vertical-align: center;
+}
+
+.mask-list li {
   display: flex;
   align-items: center;
-  font-weight: bold;
-}
-
-#app .choose-type .no-goods {
-  color: #999;
-  font-weight: normal;
-  padding: 20px;
-}
-
-#app .choose-type .filter-list {
-  display: flex;
-  font-weight: normal;
-}
-
-#app .choose-type .filter-list li {
-  margin: 15px 10px;
-  padding: 5px 8px;
+  justify-content: space-between;
+  height: 32px;
+  line-height: 32px;
+  margin-bottom: 10px;
+  padding: 0 15px;
   border-radius: 3px;
-  color: #fff;
-  background-color: #f60;
-  cursor: pointer;
+  border-left: 5px solid #629A9C;
+  background-color: #fff;
 }
 
-#app .choose-type .filter-list li .delete-goods {
+.mask-list.complete-list li {
+  border-left-color: #999;
   opacity: .5;
-}
-
-#app .choose-type .filter-list li .delete-goods:hover {
-  opacity: 1;
 }
