@@ -1523,3 +1523,27 @@ goodsList: [
 
 # 练习_todoList
 css文件在文件夹中，自行拷贝
+
+
+# v-model
+可以在表单元素上创建双向数据绑定。
+本质上，语法糖
+
+## input
+  input[type="text"]      @input  :value
+  input[type="checkbox"]  @change :checked
+  input[type="radio"]     @change :checked
+
+## teaxtarea
+  @input  :value
+
+## select
+
+## 修饰符
+
+### .lazy
+
+
+### .number
+
+### .trim

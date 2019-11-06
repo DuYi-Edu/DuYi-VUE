@@ -6,56 +6,54 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <script src="./vue.js"></script>
-  <link rel="stylesheet" href="./index.css">
 </head>
 <body>
 
   <div id="app">
-    <div class="header">
-      <div class="container">
-        <div class="logo">toDoList</div>
-        <div class="input-area">
-          <input type="text" @input="handleInput" :value="curMask"/>
-          <button @click="addMask">添加</button>
-        </div>
-      </div>
-    </div>
-    <div class="container">
-      <h2>
-        <span>正在进行</span>
-        <span class="mask-num">{{ needDoList.length }}</span>
-      </h2>
-      <ul class="mask-list">
-        <li
-          v-for="(mask, index) in needDoList"
-          :key="mask.id"
-        >
-          <div>
-            <input type="checkbox" @change="doCheck(index, 'need')"/>
-            <span>{{ mask.title }}</span>
-          </div>
-          <button @click="deleteMask(index, 'need')">删除</button>
-        </li>
-      </ul>
-    </div>
-    <div class="container">
-      <h2>
-        <span>已经完成</span>
-        <span class="mask-num">{{ completeList.length }}</span>
-      </h2>
-      <ul class="mask-list complete-list">
-        <li
-          v-for="(mask, index) in completeList"
-          :key="mask.id"
-        >
-          <div>
-            <input type="checkbox" @change="doCheck(index, 'complete')"/>
-            <span>{{ mask.title }}</span>
-          </div>
-          <button @click="deleteMask(index, 'complete')">删除</button>
-        </li>
-      </ul>
-    </div>
+    <!-- <input type="text" v-model="msg" /> -->
+    <!-- <input type="text" @input="msg = $event.target.value" :value="msg" /> -->
+
+    <!-- <input type="checkbox" v-model="checked" /> -->
+
+    <!-- <input type="checkbox" id="cheng" value="成哥" v-model="checkList" />
+    <label for="cheng">成哥</label>
+
+    <input type="checkbox" id="deng" value="邓哥" v-model="checkList" />
+    <label for="deng">邓哥</label>
+
+    <input type="checkbox" id="tong" value="思彤哥" v-model="checkList" />
+    <label for="tong">思彤哥</label> -->
+
+    <!-- <input type="radio" id="cheng" value="成哥" v-model="picked" />
+    <label for="cheng">成哥</label>
+
+    <input type="radio" id="deng" value="邓哥" v-model="picked" />
+    <label for="deng">邓哥</label>
+
+    <input type="radio" id="tong" value="思彤哥" v-model="picked" />
+    <label for="tong">思彤哥</label> -->
+
+    <!-- <textarea v-model="multipleText"></textarea> -->
+
+    <!-- <select v-model="select">
+      <option value="请选择" disabled>请选择</option>
+      <option value="成哥">成哥</option>
+      <option value="邓哥">邓哥</option>
+      <option value="思彤哥">思彤哥</option>
+    </select> -->
+
+    <!-- <select v-model="selectList" multiple>
+      <option value="成哥">成哥</option>
+      <option value="邓哥">邓哥</option>
+      <option value="思彤哥">思彤哥</option>
+    </select> -->
+
+    <!-- <input type="text" v-model.lazy="msg" /> -->
+
+    <!-- <input type="number" v-model.number="msg"> -->
+
+    <input type="text" v-model="msg"/>
+
   </div>
 
   <script>
@@ -63,42 +61,20 @@
     const vm = new Vue({
       el: '#app',
       data: {
-        curMask: '',
-        needDoList: [],
-        completeList: []
-      },
-      methods: {
-        handleInput (e) {
-          this.curMask = e.target.value;
-        },
-        addMask () {
-          if(this.curMask === '') { return };
-          this.needDoList.push({
-            title: this.curMask,
-            id: Math.random()
-          });
-          this.curMask = '';
-        },
-        doCheck (index, type) {
-
-          if(type === 'need') {
-            const completeMask = this.needDoList.splice(index, 1);
-            this.completeList.push(...completeMask);
-          } else {
-            const noCompleteMask = this.completeList.splice(index, 1);
-            this.needDoList.push(...noCompleteMask);
-          }
-        },
-        deleteMask (index, type) {
-          const toDoList = type === 'need' ? this.needDoList : this.completeList;
-          toDoList.splice(index, 1);
-        }
+        msg: 'hello world',
+        checked: 'xxx',
+        checkList: [],
+        picked: '',
+        multipleText: 'hello, 你好呀',
+        select: '请选择',
+        selectList: []
       }
+      
     })
 
-
-
-   
+    setTimeout(() => {
+      console.log(vm.msg);
+    }, 3000)
     
   </script>
 </body>
