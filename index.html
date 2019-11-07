@@ -10,49 +10,16 @@
 <body>
 
   <div id="app">
-    <!-- <input type="text" v-model="msg" /> -->
-    <!-- <input type="text" @input="msg = $event.target.value" :value="msg" /> -->
-
-    <!-- <input type="checkbox" v-model="checked" /> -->
-
-    <!-- <input type="checkbox" id="cheng" value="成哥" v-model="checkList" />
-    <label for="cheng">成哥</label>
-
-    <input type="checkbox" id="deng" value="邓哥" v-model="checkList" />
-    <label for="deng">邓哥</label>
-
-    <input type="checkbox" id="tong" value="思彤哥" v-model="checkList" />
-    <label for="tong">思彤哥</label> -->
-
-    <!-- <input type="radio" id="cheng" value="成哥" v-model="picked" />
-    <label for="cheng">成哥</label>
-
-    <input type="radio" id="deng" value="邓哥" v-model="picked" />
-    <label for="deng">邓哥</label>
-
-    <input type="radio" id="tong" value="思彤哥" v-model="picked" />
-    <label for="tong">思彤哥</label> -->
-
-    <!-- <textarea v-model="multipleText"></textarea> -->
-
-    <!-- <select v-model="select">
-      <option value="请选择" disabled>请选择</option>
-      <option value="成哥">成哥</option>
-      <option value="邓哥">邓哥</option>
-      <option value="思彤哥">思彤哥</option>
-    </select> -->
-
-    <!-- <select v-model="selectList" multiple>
-      <option value="成哥">成哥</option>
-      <option value="邓哥">邓哥</option>
-      <option value="思彤哥">思彤哥</option>
-    </select> -->
-
-    <!-- <input type="text" v-model.lazy="msg" /> -->
-
-    <!-- <input type="number" v-model.number="msg"> -->
-
-    <input type="text" v-model="msg"/>
+    <input type="text" v-model.number.lazy="num1" />
+    <select v-model="type">
+      <option value="+">+</option>
+      <option value="-">-</option>
+      <option value="*">*</option>
+      <option value="/">/</option>
+    </select>
+    <input type="text" v-model.number.lazy="num2" />
+    <button @click="handleClick">=</button>
+    <span>{{ result }}</span>
 
   </div>
 
@@ -61,20 +28,33 @@
     const vm = new Vue({
       el: '#app',
       data: {
-        msg: 'hello world',
-        checked: 'xxx',
-        checkList: [],
-        picked: '',
-        multipleText: 'hello, 你好呀',
-        select: '请选择',
-        selectList: []
-      }
-      
-    })
+        num1: 0,
+        num2: 0,
+        type: '+',
+        result: 0
+      },
+      methods: {
+        handleClick () {
+          const { type, num1, num2 } = this;
 
-    setTimeout(() => {
-      console.log(vm.msg);
-    }, 3000)
+          switch (type) {
+            case '+': 
+              this.result = num1 + num2;
+              break;
+            case '-': 
+              this.result = num1 - num2;
+              break;
+            case '*': 
+              this.result = num1 * num2;
+              break;
+            case '/': 
+              this.result = num1 / num2;
+              break;
+          }
+
+        }
+      }
+    })
     
   </script>
 </body>
