@@ -1716,3 +1716,5 @@ const vm = new Vue({
 ```html
 <input v-model.trim="msg">
 ```
+
+# 练习_简易计算器
