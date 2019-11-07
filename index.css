@@ -1,0 +1,66 @@
+* {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  font-style: normal;
+}
+
+#app {
+  display: flex;
+  justify-content: space-between;
+  width: 1000px;
+  margin: 10px auto;
+  border: 1px solid #000;
+  border-radius: 5px;
+}
+
+#app .area {
+  width: 50%;
+}
+
+#app .area:first-child {
+  border-right: 1px dashed #000;
+}
+
+#app .area h2 {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 40px;
+  font-size: 20px;
+}
+
+#app .area ul {
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
+}
+
+#app .area ul li {
+  margin-bottom: 20px;
+}
+
+#app .area ul li h3 {
+  margin-bottom: 8px;
+}
+
+#app .area ul li input[type='text'],
+#app .area ul li textarea {
+  width: 250px;
+  height: 25px;
+  padding-left: 8px;
+  border-radius: 5px;
+  border: 1px solid #888;
+  font-size: 12px;
+  outline: none;
+}
+
+#app .area ul li input[type='radio'],
+#app .area ul li input[type='checkbox'] {
+  margin-bottom: 8px;
+}
+
+#app .area ul li textarea {
+  padding-top: 8px;
+  height: 100px;
+}
