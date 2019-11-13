@@ -5,56 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="stylesheet" href="./index.css">
   <script src="./vue.js"></script>
 </head>
 <body>
 
   <div id="app">
-    <div 
-      class="area"
-      v-for="area in 2"
-    >
-      <h2>{{ area === 1 ? '提问区' : '回答展示区' }}</h2>
-      <ul>
-        <li
-          v-for="question in questionList"
-          :key="question.id"
-        >
-          <h3>{{ question.title }}</h3>
-          <!-- 简答 -->
-          <div v-if="question.type === 'short'">
-            <input type="text" v-if="area === 1" v-model="question.answer">
-            <span v-else>{{ question.answer }}</span>
-          </div>
-          <!-- 单选 -->
-          <div v-else-if="question.type === 'single'">
-            <template v-if="area === 1">
-              <div v-for="choose in question.chooseList" :key="choose">
-                <input type="radio" :value="choose" v-model="question.answer" />
-                <span>{{ choose }}</span>
-              </div>
-            </template>
-            <span v-else>{{ question.answer }}</span>
-          </div>
-          <!-- 多选题 -->
-          <div v-else-if="question.type === 'multiple'">
-            <template v-if="area === 1">
-              <div v-for="choose in question.chooseList">
-                <input type="checkbox" :value="choose" v-model="question.answer"/>
-                <span>{{ choose }}</span>
-              </div>
-            </template>
-            <div v-else>{{ question.answer && question.answer.toString() }}</div>
-          </div>
-          <!-- 问答题 -->
-          <div v-else>
-            <textarea v-if="area === 1" v-model="question.answer"></textarea>
-            <span v-else>{{ question.answer }}</span>
-          </div>
-        </li>
-      </ul>
-    </div>
+    {{ msg.split('').reverse().join('') }}
+
   </div>
 
   <script>
@@ -62,52 +19,9 @@
     const vm = new Vue({
       el: '#app',
       data: {
-        questionList: [
-          {
-            type: 'short',
-            title: '1.请问你的姓名是？',
-            chooseList: null,
-            id: 0,
-          },
-          {
-            type: 'single',
-            title: '2.请问您的性别是？',
-            chooseList: [
-              '男',
-              '女',
-              '保密',
-            ],
-            id: 1,
-          },
-          {
-            type: 'multiple',
-            title: '3. 请选择您的兴趣爱好：',
-            chooseList: [
-              '看书',
-              '游泳',
-              '跑步',
-              '看电影',
-              '听音乐',
-            ],
-            id: 2,
-          },
-          {
-            type: 'long',
-            title: '4. 请介绍一下自己:',
-            chooseList: null,
-            id: 3,
-          },
-        ]
-      },
-     
+        msg: 'hello，你好呀，我是杉杉'
+      }
     })
-
-    vm.questionList.forEach(question => {
-      const answer = question.type === 'multiple' ? [] : '';
-      vm.$set(question, 'answer', answer);
-    });
-
-    
   </script>
 </body>
 </html>
