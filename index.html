@@ -10,13 +10,70 @@
 <body>
 
   <div id="app">
+    <!-- {{ msg.split('').reverse().join('') }}
 
+    <br>
+
+    {{ someComputed }}
+
+    <br>
+
+    {{ msgReverse }}
+
+    <br>
+
+    {{ msgMethod() }}
+
+    <br>
+
+    {{ name }} -->
+
+    <br>
+    {{ desc }}
   </div>
 
   <script>
 
     const vm = new Vue({
       el: '#app',
+      data: {
+        msg: 'hello，你好呀，我是杉杉',
+        name: 'shanshan',
+        looks: 'beautiful'
+      },
+      methods: {
+        msgMethod () {
+          console.log('methods');
+
+          for(let i = 0; i < 10000; i ++) {
+            //kjkfg 
+          }
+
+          return this.msg.split('').reverse().join('');
+        }
+      },
+      computed: {
+        someComputed: function () {
+          return 'xxxx';
+        },
+        msgReverse: function () {
+          // console.log('computed');
+          return this.msg.split('').reverse().join('');
+        },
+        // desc () {
+        //   return `姓名：${this.name},外表：${this.looks}`
+        // },
+        desc: {
+          get () {
+            console.log('计算属性被读取啦')
+            return `姓名：${this.name},外表：${this.looks}`
+          },
+          set (newVal) {
+            // 设置
+            console.log('计算属性被设置啦', newVal)
+          }
+        }
+      }
     })
   </script>
 </body>
