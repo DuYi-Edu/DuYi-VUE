@@ -2278,7 +2278,7 @@ const unwatch = vm.$watch('msg', function () {
 ```
 如果仍然希望在回调内部用一个取消侦听的函数，那么可以先检查该函数的可用性：
 ```js
-const unwatch = vm.$watch('msg', function () {
+var unwatch = vm.$watch('msg', function () {
     // 干了点儿事
     if(unwatch) {
       unwatch();  
