@@ -1,0 +1,125 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
+
+@font-face {
+  font-family: 'iconfont';  /* project id 1511900 */
+  src: url('./font/iconfont.eot');
+  src: url('./font/iconfont.eot?#iefix') format('embedded-opentype'),
+  url('./font/iconfont.woff2') format('woff2'),
+  url('./font/iconfont.woff') format('woff'),
+  url('./font/iconfont') format('truetype'),
+  url('./font/iconfont.svg#iconfont') format('svg');
+}
+
+.icon {
+  font-family: 'iconfont' !important;
+}
+
+.icon-paizhao:before {
+  content: "\e66f";
+}
+
+#app {
+  width: 638px;
+  margin: 100px auto;
+}
+
+.logo {
+  width: 270px;
+  height: 129px;
+  margin: 0 auto;
+}
+
+.logo img{
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.search-box {
+  display: flex;
+  margin-top: 40px;
+}
+
+.search-area {
+  position: relative;
+  display: inline-block;
+  width: 536px;
+  height: 40px;
+  line-height: 40px;
+}
+
+.search-area  input {
+  width: 480px;
+  height: 20px;
+  padding: 9px 48px 9px 7px;
+  font-size: 16px;
+  border: 1px solid #b8b8b8;
+  border-bottom: 1px solid #ccc;
+  vertical-align: top;
+  border-right: none;
+  outline: none;
+}
+
+.search-area  input:focus {
+  border-color: #38f;
+  /* border-bottom-color: transparent; */
+}
+
+.search-area .icon-paizhao {
+  position: absolute;
+  top: 50%;
+  margin-top: -8px;
+  right: 11px;
+  font-size: 22px;
+  line-height: 16px;
+  cursor: pointer;
+}
+
+.search-btn {
+  width: 102px;
+  height: 40px;
+  line-height: 40px;
+  background-color: #38f;
+  color: #fff;
+  font-size: 16px;
+  text-align: center;
+}
+
+.search-btn:hover {
+  height: 39px;
+  background-color: #317ef3;
+  border-bottom: 1px solid #2868c8;
+  box-shadow: 1px 1px 1px #ccc;
+}
+
+.search-list {
+  position: relative;
+  top: -1px;
+  width: 535px;
+  border: 1px solid #ccc;
+  padding-top: 1px;
+  box-shadow: 1px 1px 3px #ededed;
+  z-index: 1;
+}
+
+.search-list li {
+  width: 519px;
+  height: 22px;
+  line-height: 22px;
+  padding-left: 8px;
+  padding-right: 8px;
+  font-size: 14px;
+  cursor: default;
+}
+
+.search-list li:hover {
+  background-color: #f0f0f0;
+
+}
