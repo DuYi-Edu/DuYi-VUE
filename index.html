@@ -8,7 +8,6 @@
   <title>Document</title>
   <link rel="stylesheet" href="./index.css">
   <script src="./vue.js"></script>
-  <script src="./vue-resource.js"></script>
 </head>
 
 <body>
@@ -43,38 +42,13 @@
       },
       methods: {
         handleUpload () {
-          this.$http.post('https://developer.duyiedu.com/vue/setUserInfo', {
-            name: this.name,
-            mail: this.mail
-          }).then(res => {
-            this.msg = res.body.msg;
-          }).catch(error => {
-            this.msg = error.body.msg;
-          })
+          
         },
         handleShow () {
-          // this.$http.get('https://developer.duyiedu.com/vue/getUserInfo').then(res => {
-          //   this.personList = res.body.data;
-          // })
-
-          this.$http.get('https://developer.duyiedu.com/vue/getUserInfo').then(res => {
-            return res.json();
-          }).then(res => {
-            console.log(res);
-          })
+          
         },
         handleTest () {
-          // this.$http.jsonp('https://developer.duyiedu.com/vue/jsonp').then(res => {
-          //   console.log(res);
-          // })
-          this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su', {
-            params: {
-              wd: '百度'
-            },
-            jsonp: 'cb'
-          }).then(res => {
-            console.log(res)
-          })
+          
         },
       },
       watch: {
