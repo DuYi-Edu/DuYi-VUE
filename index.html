@@ -20,7 +20,6 @@
       <input type="text" placeholder="邮箱" v-model="mail">
     </div>
     <div class="upload-btn" @click="handleUpload">上传</div>
-    <div class="test-btn" @click="handleTest">测试jsonp</div>
     <div class="show-btn" @click="handleShow">显示人物信息</div>
     <ul class="person-list" v-if="personList.length">
       <li class="person" v-for="person in personList">
@@ -42,14 +41,9 @@
       },
       methods: {
         handleUpload () {
-          
         },
         handleShow () {
-          
-        },
-        handleTest () {
-          
-        },
+        }
       },
       watch: {
         msg () {

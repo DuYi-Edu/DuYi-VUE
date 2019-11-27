@@ -2500,6 +2500,10 @@ Axios是一个基于promise的HTTP库
 
 浏览器支持情况：Chrome、Firefox、Safari、Opera、Edge、IE8+
 
+## 引入
+```js
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+```
 
 ## API
 
@@ -2592,13 +2596,8 @@ interceptors，在发起请求之前做一些处理，或者在响应回来之�
 ```js
 axios.interceptors.request.use(config => {
   // 在发送请求之前做些什么
+  // 这里会最先拿到你的请求配置
   return config;
-}, error => {
-  // 对请求错误做些什么，到了后端，返回的错误叫做请求错误
-  // 请求错误一般http状态码以4开头，常见：
-  // 401 超时；404 not found
-
-  return Promise.reject(error);
 })
 ```
 
@@ -2606,12 +2605,9 @@ axios.interceptors.request.use(config => {
 ```js
 axios.interceptors.response.use(response => {
   // 对响应数据做点什么
+  // 这里会最先拿到你的response
+  // 只有返回的状态码是2xx，都会进来这里
   return response;
-}, error => {
-  // 对响应错误做点什么，没到后端，返回的错误叫做响应错误
-  // 响应错误一般http状态码以5开头，常见：
-  // 500 系统错误；502 系统重启
-  return Promise.reject(error);
 })
 ```
 
@@ -2646,15 +2642,31 @@ axios.get('/user/12345')
 在实际开发过程中，一般在拦截器中统一添加错误处理
 ```js
 const instance = axios.create({});
-instance.interceptors.request(config => {
-
+instance.interceptors.request.use(config => {
+  return config;
 }, error => {
   return Promise.reject(error);
 })
 
-instance.interceptors.response(response => {
-
+instance.interceptors.response.use(response => {
+  return response;
 }, error => {
+  // 1. http状态码非2开头的都会进来这里，如404,500等
+  // 2. 取消请求也会进入这里，CancelToken，可以用axios.isCancel(err)来判断是取消的请求
+  // 3. 请求运行有异常也会进入这里，如故意将headers写错：axios.defaults.headers = '123',或者在request中有语法或解析错误也会进入这里
+  // 进入这里意味着请求失败，axios会进入catch分支
+  const status = error.response.status;
+
+  switch (status) {
+    case 400: 
+      error.message = '错误请求';
+      break;
+    case 404:
+      error.message = '请求错误，未找到资源';
+      break;
+  }
+
+  console.log(error);
   return Promise.reject(error);
 })
 ```
@@ -2662,7 +2674,7 @@ instance.interceptors.response(response => {
 ## 取消请求
 用于取消正在进行的http请求
 ```js
-const source = axios.CancelToken;
+const CancelToken = axios.CancelToken;
 const source = CancelToken.source();
 
 axios.get('/getUserInfo', {
