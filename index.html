@@ -7,6 +7,7 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link rel="stylesheet" href="./index.css">
+  <script src="./axios.js"></script>
   <script src="./vue.js"></script>
 </head>
 
@@ -31,6 +32,25 @@
 
   <script>
 
+    axios.defaults.baseURL = 'https://developer.duyiedu.com/vue';
+    // axios.defaults.timeout = 1000;
+
+    // a 'https://developer.duyiedu.com/vue/a'
+    // b 'https://developer.duyiedu.com/vue/b'
+
+    const instance = axios.create({
+      baseURL: 'https://developer.duyiedu.com/vue'
+    });
+
+    const aInstance = axios.create({
+      baseURL: 'https://developer.duyiedu.com/vue/a'
+    })
+
+    const bInstance = axios.create({
+      baseURL: 'https://developer.duyiedu.com/vue/b'
+    })
+
+
     const vm = new Vue({
       el: '#app',
       data: {
@@ -41,8 +61,65 @@
       },
       methods: {
         handleUpload () {
+          const { name, mail  } = this;
+          axios.post('/setUserInfo', { name, mail }, {
+            baseURL: 'https://developer.duyiedu.com/vue',
+          }).then(res => {
+            this.msg = res.data.msg;
+          })
         },
         handleShow () {
+          // axios({
+          //   method: 'get',
+          //   baseURL: 'https://developer.duyiedu.com/vue',
+          //   url: '/getUserInfo'
+          // }).then(res => {
+          //   this.msg = res.data.msg;
+          //   this.personList = res.data.data;
+          // })
+
+          // axios('/getUserInfo', {
+          //   method: 'get',
+          //   baseURL: 'https://developer.duyiedu.com/vue',
+          // }).then(res => {
+          //   this.msg = res.data.msg;
+          //   this.personList = res.data.data;
+          // })
+
+          // axios.get('/getUserInfo', {
+          //   baseURL: 'https://developer.duyiedu.com/vue',
+          // }).then(res => {
+          //   this.msg = res.data.msg;
+          //   this.personList = res.data.data;
+          // })
+
+          // axios.get('/getUserInfo').then(res => {
+          //   this.msg = res.data.msg;
+          //   this.personList = res.data.data;
+          // })
+
+          // instance.get('/getUserInfo').then(res => {
+          //   this.msg = res.data.msg;
+          //   this.personList = res.data.data;
+          // })
+
+          // aInstance.get('/xxx');
+          // bInstance.get('/xxx');
+
+          // axios.get('/a').then(res => {
+
+          // });
+
+          // axios.get('/b')
+
+          // axios.get('/c');
+
+          axios.all([
+            axios.post('/setUserInfo', {name: 'shanshan', mail: 'haah@qq.com'}),
+            axios.get('/getUserInfo'),
+          ]).then(axios.spread((postRes, getRes ) => {
+            console.log(postRes, getRes);
+          }));
         }
       },
       watch: {
