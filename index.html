@@ -7,132 +7,19 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
   <link rel="stylesheet" href="./index.css">
-  <script src="./axios.js"></script>
   <script src="./vue.js"></script>
 </head>
 
 <body>
 
-  <div id="app">
-    <div class="username">
-      <input type="text" placeholder="用户名" v-model="name">
-    </div>
-    <div class="mail">
-      <input type="text" placeholder="邮箱" v-model="mail">
-    </div>
-    <div class="upload-btn" @click="handleUpload">上传</div>
-    <div class="show-btn" @click="handleShow">显示人物信息</div>
-    <button @click="handleCancelGet">取消get请求</button>
-    <ul class="person-list" v-if="personList.length">
-      <li class="person" v-for="person in personList">
-        <span>{{ person.name }}</span>
-        <span>{{ person.mail }}</span>
-      </li>
-    </ul>
-  </div>
+  <div id="app"></div>
 
   <script>
-    // axios.defaults.baseURL = 'https://developer.duyiedu.com/vue';
-    axios.defaults.baseURL = 'http://127.0.0.1:12306';
-
-    axios.interceptors.request.use(config => {
-
-      // if(config.method === 'get') {
-      //   // ...
-      // } else if(config.method === 'post') {
-      //   // ..
-      // }
-      return config;
-    }, error => {
-      alert('xxxx');
-      return Promise.reject(error);
-    });
-
-    const interceptor = axios.interceptors.response.use(response => {
-      if(response.status === 200) {
-        return response.data;
-      } else {
-        // ...
-      }
-    }, error => {
-      if(error.response) {
-        console.log('响应时错误');
-      } else if(error.request) {
-        // 请求时错误
-        console.log('请求时错误');
-      } 
-      // console.log(error.request);
-      // console.log(error.response);
-      return Promise.reject(error);
-    });
-
-    // axios.interceptors.response.eject(interceptor);
-
-    const instance = axios.create();
-    instance.interceptors.request.use();
-
-    const source = axios.CancelToken.source();
-
+    
     const vm = new Vue({
       el: '#app',
       data: {
-        name: '',
-        mail: '',
-        msg: '',
-        personList: []
       },
-      methods: {
-        handleUpload () {
-          axios.post('setUserInfo', {
-            name: 'shan',
-            mail: 'shan@qq.com'
-          })
-        },
-        handleShow () {
-          axios.get('/getUserInfo', {
-            cancelToken: source.token
-          }).then(res => {
-            console.log(res);
-          }).catch(error => {
-            // console.log(error.request); // 请求时错误
-            // console.log(error.response); // 响应时错误
-
-            // if(error.response) {
-            //   const { status } = error.response;
-
-            //   switch (status) {
-            //     case 404: 
-            //       alert('url地址错误');
-            //       break;
-            //     case 401:
-            //       alert('xxx')
-
-            //   }
-            // } else if(error.request) {
-            //   // console.log('请求时错误');
-            // } else {
-            //   console.log(error.message);
-            // }
-            // error.request
-            // error.response
-            // console.log(error);
-            // const msg = error.message;
-            // alert(msg);
-          })
-        },
-        handleCancelGet () {
-          source.cancel('取消请求');
-        }
-      },
-      watch: {
-        msg () {
-          if(this.msg === '') {
-            return;
-          }
-          alert(this.msg);
-          this.msg = '';
-        }
-      }
     })
   </script>
 </body>
