@@ -2711,18 +2711,18 @@ const vm = new Vue({
 
 > Vue初始化到挂载的流程
 
-![](/template.png) 
+![](https://developer.duyiedu.com/myVue/template.png) 
 
 # Vue生命周期
 每个 Vue 实例在被创建时都要经过一系列的初始化过程，例如，需要设置数据监听、编译模板、将实例挂载到 DOM 并在数据变化时更新 DOM 等。同时在这个过程中也会运行一些叫做生命周期钩子的函数，这给了用户在不同阶段添加自己的代码的机会。
 
 ## 生命周期图示
-![](/lifecycle1.png) 
+![](https://developer.duyiedu.com/myVue/lifecycle1.png) 
 
 ## 生命周期钩子
 所有的生命周期钩子自动绑定 this 上下文到实例中，因此你可以访问数据，对属性和方法进行运算
 
-![](/lifecycle2.png) 
+![](https://developer.duyiedu.com/myVue/lifecycle2.png) 
 
 ### beforeCreate
 在实例初始化之后，数据观测 (data observer) 和 event/watcher 事件配置之前被调用。
