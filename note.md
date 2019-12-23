@@ -2711,4 +2711,4 @@ const vm = new Vue({
 
 > Vue初始化到挂载的流程
 
-![](/template.png) 
+![](https://developer.duyiedu.com/myVue/template.png) 
