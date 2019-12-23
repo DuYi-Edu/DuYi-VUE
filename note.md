@@ -2917,3 +2917,27 @@ const vm = new Vue({
 
 ### destroyed
 Vue 实例销毁后调用。调用后，Vue 实例指示的所有东西都会解绑定，所有的事件监听器会被移除。
+
+# 练习_bilibili首页
+
+1.轮播图
+
+baseURL: 'https://developer.duyiedu.com/vue/bz'
+url: '/banner'
+
+2.导航
+
+baseURL: 'https://developer.duyiedu.com/vue/bz'
+url: '/nav'
+
+3.视频
+
+baseURL: 'https://developer.duyiedu.com/vue/bz'
+url: '/video'
+Request:
+
+  name | type | describe 
+  :-: | :-: | :-: 
+  start | Number | 数据起始值
+  offset | Number | 偏移量
+  count | Number | 数据总条数
