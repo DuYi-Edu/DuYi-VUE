@@ -12,14 +12,22 @@
 
 <body>
 
-  <div id="app"></div>
+  <div id="app">
+    {{ }}
+  </div>
 
   <script>
-    
+    // el --> el.outerHTML -->moban --> render  --> $el   ---> el
+
+    // el $mount()
+
+    // template  -> moban
+
     const vm = new Vue({
       el: '#app',
       data: {
       },
+      template: `<div id="app-10"></div>`
     })
   </script>
 </body>
