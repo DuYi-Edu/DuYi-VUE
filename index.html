@@ -30,12 +30,68 @@
       </div>
       <div class="download-app">下载App</div>
     </div>
+
+    <!-- 导航区域 -->
+    <div 
+      :class="{
+        'nav-box': navIndex === 1,
+        'hide-nav-box': navIndex === 2,
+        hide: navIndex === 2 && navHide
+      }"
+      v-for="navIndex in 2"
+    >
+      <ul class="nav-list">
+        <li 
+          @click="handleNavClick(index)"
+          class="nav"
+          :class="{
+            big: nav.title.length === 3 && navIndex === 2,
+            active: index === navActiveIndex
+          }"
+          v-for="(nav, index) in navList"
+          :key="nav.id"
+        >{{ nav.title }}</li>
+      </ul>
+      <div 
+        class="down" 
+        v-if="navIndex === 1"
+        @click="handleClick"
+      >
+        <svg width="16" height="32" viewBox="0 0 1024 1024"><path d="M515.2 649.6L169.6 304c-12.8-12.8-32-12.8-44.8 0s-12.8 35.2 0 48l368 364.8c12.8 12.8 32 12.8 44.8 0l361.6-361.6c12.8-12.8 12.8-35.2 0-48s-32-12.8-44.8 0L515.2 649.6z" fill="#ccc"></path></svg>
+      </div>
+      <div 
+        v-else
+        class="up" 
+        @click="handleClick"
+      >
+        <svg width="16" height="32" viewBox="0 0 1024 1024"><path d="M854.4 713.6c12.8 12.8 32 12.8 44.8 0s12.8-35.2 0-48L537.6 304c-12.8-12.8-32-12.8-44.8 0L124.8 672c-12.8 12.8-12.8 35.2 0 48s32 12.8 44.8 0l345.6-342.4 339.2 336z" fill="#ccc"></path></svg>
+      </div>
+    </div>
   </div>
 
   <script>
     const vm = new Vue({
       el: '#app',
       data: {
+        navList: [],
+        navHide: true,
+        navActiveIndex: 0,
+      },
+      methods: {
+        handleClick () {
+          this.navHide = !this.navHide;
+        },
+        handleNavClick (index) {
+          this.navActiveIndex = index;
+        },
+      },
+      created () {
+        axios.get( 'https://developer.duyiedu.com/vue/bz/nav').then(res => {
+          console.log(res);
+          if(res.status === 200) {
+            this.navList = res.data.data;
+          }
+        })
       },
     })
   </script>
