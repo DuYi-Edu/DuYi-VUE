@@ -1,0 +1,56 @@
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  background-color: #fff;
+}
+
+.header .logo {
+  margin-left: 18px;
+}
+
+.header .search-input {
+  width: 132px;
+  height: 24px;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  color: #999;
+  background-color: #f4f4f4;
+  border-radius: 12px;
+}
+
+.header .search-input svg {
+  margin-left: 10px;
+}
+
+.header .search-input span {
+  width: 92px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.header .avatar svg {
+  border-radius: 50%;
+}
+
+.header .download-app {
+  -webkit-user-drag: 78px;
+  height: 23px;
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-right: 12px;
+  line-height: 23px;
+  text-align: center;
+  color: #fff;
+  background-color: #fb7299;
+  font-size: 12px;
+  border-radius: 4px;
+}

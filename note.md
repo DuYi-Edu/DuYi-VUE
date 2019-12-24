@@ -2940,4 +2940,3 @@ Request:
   :-: | :-: | :-: 
   start | Number | 数据起始值
   offset | Number | 偏移量
-  count | Number | 数据总条数
