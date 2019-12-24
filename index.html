@@ -67,6 +67,36 @@
         <svg width="16" height="32" viewBox="0 0 1024 1024"><path d="M854.4 713.6c12.8 12.8 32 12.8 44.8 0s12.8-35.2 0-48L537.6 304c-12.8-12.8-32-12.8-44.8 0L124.8 672c-12.8 12.8-12.8 35.2 0 48s32 12.8 44.8 0l345.6-342.4 339.2 336z" fill="#ccc"></path></svg>
       </div>
     </div>
+
+    <div class="banner-box">
+      <ul 
+        class="banner-list"
+        :style="bannerStyle"
+        @transitionend="handleTransitionEnd"
+      >
+        <li 
+          class="banner"
+          v-for="banner in bannerList"
+          :key="banner.id"
+        >
+          <img 
+            class="poster"
+            :src="banner.poster" 
+            :alt="banner.title"
+          />
+        </li>
+      </ul>
+      <ul class="index-list">
+        <li 
+          v-for="index in bannerList.length - 1"
+          :key="index"
+          class="index"
+          :class="{
+            active: index - 1 === bannerActiveIndex % 3
+          }"
+        ></li>
+      </ul>
+    </div>
   </div>
 
   <script>
@@ -76,6 +106,13 @@
         navList: [],
         navHide: true,
         navActiveIndex: 0,
+        bannerList: [],
+        bannerWidth: 350,
+        bannerStyle: {
+          left: 0,
+          transition: 'left .3s',
+        },
+        bannerActiveIndex: 0,
       },
       methods: {
         handleClick () {
@@ -84,15 +121,43 @@
         handleNavClick (index) {
           this.navActiveIndex = index;
         },
+        autoMove () {
+          setTimeout(() => {
+            if(this.bannerActiveIndex === 0 ) {
+              this.bannerStyle.transition = 'left .3s';
+            }
+
+            this.bannerActiveIndex ++;
+            this.bannerStyle.left = -this.bannerActiveIndex * this.bannerWidth + 'px';
+          }, 1500)
+        },
+        handleTransitionEnd () {
+          if(this.bannerActiveIndex === 3) {
+            this.bannerActiveIndex = 0;
+            this.bannerStyle.left = 0;
+            this.bannerStyle.transition = 'none';
+          }
+          this.autoMove();
+        },
       },
       created () {
-        axios.get( 'https://developer.duyiedu.com/vue/bz/nav').then(res => {
-          console.log(res);
+        axios.get('https://developer.duyiedu.com/vue/bz/nav').then(res => {
           if(res.status === 200) {
             this.navList = res.data.data;
           }
         })
+
+        axios.get('https://developer.duyiedu.com/vue/bz/banner').then(res => {
+          if(res.status === 200) {
+            const lastEle = {...res.data.data[0]};
+            lastEle.id = Math.floor(Math.random() * 10000000);
+            this.bannerList = [...res.data.data, lastEle];
+          }
+        })
       },
+      mounted () {
+        this.autoMove();
+      }
     })
   </script>
 </body>
