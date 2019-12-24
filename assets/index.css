@@ -1,3 +1,12 @@
+body, html {
+  height: 100%;
+}
+
+#app {
+  height: 100%;
+  overflow-y: scroll;
+}
+
 .header {
   position: fixed;
   top: 0;
@@ -206,4 +215,82 @@
 
 .banner-box .index.active {
   background-color: #fb7299;
+}
+
+.video-box {
+  padding-top: 100px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+
+.video-box .video-list::after {
+  display: block;
+  content: '';
+  clear: both;
+}
+
+.video-box .video {
+  float: left;
+  width: 50%;
+}
+
+.video-box .poster {
+  position: relative;
+  height: 106px;
+  margin-right: 6px;
+  margin-left: 6px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.video-box .poster img {
+  width: 100%;
+  height: 100%;
+}
+
+.video-box .poster .info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  padding-top: 7px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  color: #fff;
+  font-size: 12px;
+  background-image: linear-gradient(rgba(33, 33, 33, 0), rgba(33, 33, 33, .5));
+}
+
+.video-box .info div {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.video-box .info svg {
+  margin-right: 3px;
+  width: 14px;
+  height: 14px;
+  fill: #fff;
+}
+
+.video-box .title {
+  margin: 6px 6px 10px 6px;
+  height: 38px;
+  line-height: 20px;
+  font-size: 13px;
+  /* 单行文本溢出打点：
+  设置文本不换行
+  white-space: nowrap;
+  设置文字溢出用省略号代替
+  text-overflow: ellipsis; */
+  /* 多行文本溢出打点： */
+  overflow: hidden;
+  /* 设置盒子为伸缩盒 */
+  display: -webkit-box;
+  /* 设置伸缩盒内子元素的排列方式为vertical */
+  -webkit-box-orient: vertical;
+  /* 限制一个块元素内显示的文本行数 */
+  -webkit-line-clamp: 2;
 }
