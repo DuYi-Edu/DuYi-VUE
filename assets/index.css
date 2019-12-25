@@ -294,3 +294,15 @@ body, html {
   /* 限制一个块元素内显示的文本行数 */
   -webkit-line-clamp: 2;
 }
+
+
+.footer {
+  margin-top: 40px;
+}
+
+.footer p {
+  margin-bottom: 20px;
+  text-align: center;
+  font-size: 13px;
+  color: #999;
+}

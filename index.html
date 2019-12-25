@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="./assets/reset.css">
   <link rel="stylesheet" href="./assets/index.css">
   <script src="./axios.js"></script>
+  <script src="./request.js"></script>
   <script src="./vue.js"></script>
 </head>
 
@@ -141,6 +142,12 @@
         </li>
       </ul>
     </div>
+
+    <!-- 底部区域 -->
+    <div class="footer">
+      <p>哔哩哔哩 沪ICP备13002172号-3</p>
+      <p>信息网络传播视听节目许可证：0910417</p>
+    </div>
   </div>
 
   <script>
@@ -206,50 +213,49 @@
           if(toBottomHeight < 200 && !this.videoGettingData) {
             this.videoGettingData = true;
 
-            axios.get('https://developer.duyiedu.com/vue/bz/video', {
+            axios.get('video', {
               params: {
                 start: this.videoList.length,
                 offset: 12
               }
             }).then(res => {
-              if(res.status === 200) {
-                this.videoOldList.push(...res.data.data);
+                this.videoOldList.push(...res.data);
                 this.videoGettingData = false;
-              }
             })
 
           }
-          // console.log(toBottomHeight);
-          // console.log('xxx');
         },
+        getData () {
+          axios.all([
+            axios.get('nav'),
+            axios.get('banner'),
+            axios.get('video', {
+              params: {
+                start: 0,
+                offset: 12
+              }
+            })
+          ]).then(axios.spread((navRes, bannerRes, videoRes) => {
+            this.initNavList(navRes);
+            this.initBannerList(bannerRes);
+            this.initVideo(videoRes);
+          }));
+        },
+        initNavList (navRes) {
+          this.navList = navRes;
+        },
+        initBannerList (bannerRes) {
+          const bannerLaseEle = {...bannerRes[0]};
+          bannerLaseEle.id = Math.floor(Math.random() * 10000000);
+          this.bannerList = [...bannerRes, bannerLaseEle];
+        },
+        initVideo (videoRes) {
+          this.videoCount = videoRes.count;
+          this.videoOldList = videoRes.data;
+        }
       },
       created () {
-        axios.get('https://developer.duyiedu.com/vue/bz/nav').then(res => {
-          if(res.status === 200) {
-            this.navList = res.data.data;
-          }
-        })
-
-        axios.get('https://developer.duyiedu.com/vue/bz/banner').then(res => {
-          if(res.status === 200) {
-            const lastEle = {...res.data.data[0]};
-            lastEle.id = Math.floor(Math.random() * 10000000);
-            this.bannerList = [...res.data.data, lastEle];
-          }
-        })
-
-        axios.get('https://developer.duyiedu.com/vue/bz/video', {
-          params: {
-            start: 0,
-            offset: 12
-          }
-        }).then(res => {
-          if(res.status === 200) {
-            console.log(res.data)
-            this.videoCount = res.data.count;
-            this.videoOldList = res.data.data;
-          }
-        })
+        this.getData();
       },
       mounted () {
         this.autoMove();
