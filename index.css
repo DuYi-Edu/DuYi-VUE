@@ -1,0 +1,56 @@
+.video-item {
+  float: left;
+  width: 50%;
+}
+
+.video-item .poster {
+  position: relative;
+  height: 106px;
+  margin-right: 6px;
+  margin-left: 6px;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.video-item .video-box .poster img {
+  width: 100%;
+  height: 100%;
+}
+
+.video-item .poster .info {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 20px;
+  padding-top: 7px;
+  padding-bottom: 3px;
+  padding-left: 10px;
+  color: #fff;
+  font-size: 12px;
+  background-image: linear-gradient(rgba(33, 33, 33, 0), rgba(33, 33, 33, .5));
+}
+
+.video-item .info div {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+}
+
+.video-item .info svg {
+  margin-right: 3px;
+  width: 14px;
+  height: 14px;
+  fill: #fff;
+}
+
+.video-item .title {
+  margin: 6px 6px 10px 6px;
+  height: 38px;
+  line-height: 20px;
+  font-size: 13px;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}

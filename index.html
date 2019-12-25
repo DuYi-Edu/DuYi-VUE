@@ -6,93 +6,64 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
+  <link rel="stylesheet" href="./index.css">
   <script src="./vue.js"></script>
+  <script src="./axios.js"></script>
 </head>
 
 <body>
-  <!-- 全局组件 -->
-  <!-- 局部组件 -->
-
   <div id="app">
-    <shanshan-cmp></shanshan-cmp>
-    <shanshan-cmp-1></shanshan-cmp-1>
-
-    <my-component></my-component>
-    <MyComponent></MyComponent>
-
+    <video-list :video-list="videoList"></video-list>
   </div>
 
-  <div id="app1">
-    <button-counter></button-counter>
-    <button-counter></button-counter>
-    <button-counter></button-counter>
-    <button-counter></button-counter>
-    <button-counter></button-counter>
-    <button-counter></button-counter>
-    <button-counter></button-counter>
-
-    <!-- <shanshan-cmp />
-    <shanshan-cmp />
-    <shanshan-cmp />
-    <shanshan-cmp />
-    <shanshan-cmp />
-    <shanshan-cmp /> -->
-
-    <!-- <shanshan-cmp></shanshan-cmp>
-    <shanshan-cmp></shanshan-cmp>
-    <shanshan-cmp></shanshan-cmp>
-    <shanshan-cmp></shanshan-cmp>
-    <shanshan-cmp></shanshan-cmp> -->
-  </div>
-
+  
   <script>
-    Vue.component('shanshan-cmp', {
+
+    Vue.component('video-list', {
+      props: ['videoList'],
       template: `
-        <div>
-          <div>哈哈，我是一个自定义元素--组件</div>
-          <div class="play"></div>
-          <div class="rank"></div>
+        <div class="video-list">
+          <video-item
+            v-for="video in videoList"
+            v-bind="video"
+          ></video-item>
+        </div>
+      `
+    })
+
+   
+
+    Vue.component('video-item', {
+      props: ['poster', 'play', 'rank', 'title'],
+      template: `
+        <div class="video-item">
+          <div class="poster">
+            <img :src="poster" alt="">
+            <div class="info">
+              <div class="play">{{ play }}</div>
+              <div class="rank">{{ rank }}</div>
+            </div>
+          </div>
+          <div class="title">{{ title }}</div>
         </div>
       `
     });
-
-    Vue.component('MyComponent', {
-      template: '<div>我是利用大驼峰命名的</div>'
-    })
-
-    Vue.component('button-counter', {
-      data () {
-        return {
-          count: 0
-        }
-      },
-      template: `<button @click="count ++">点击了我{{count}}次</button>`
-    })
 
     const vm = new Vue({
       el: '#app',
-      components: {
-        'shanshan-cmp-1': {
-          template: `
-            <div>嘿嘿，我是组件shanshan-cmp-1</div>
-          `
-        }
+      data: {
+        videoList: [],
       },
-      template: `
-        <div id="app">
-          <MyComponent></MyComponent>
-          <shanshan-cmp />
-          <shanshan-cmp />
-          <shanshan-cmp />
-          <shanshan-cmp />
-          <shanshan-cmp />
-          <shanshan-cmp />
-        </div>
-      `
-    });
-
-    const vm1 = new Vue({
-      el: '#app1',
+      created () {
+        axios.get('https://developer.duyiedu.com/vue/bz/video', {
+          params: {
+            start: 0,
+            offset: 12
+          }
+        }).then(res => {
+          this.videoList = res.data.data
+        })
+      },
     })
   </script>
 </body>
