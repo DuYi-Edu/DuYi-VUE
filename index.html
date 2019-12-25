@@ -11,46 +11,45 @@
 
 <body>
   <div id="app">
-    <my-cmp :list="list"></my-cmp>
+    父組件：
+    {{ array }}
+    <!-- <button @click="count ++">點擊</button> -->
+    <my-cmp :count="count" :array="array"></my-cmp>
   </div>
-
-  
 
   <script>
     Vue.component('my-cmp', {
-      // props: ['list'],
       props: {
-        list: {
-          type: Array,
-          default () {
-            return [
-              { name: '哈哈'},
-              { name: '嘿嘿'}
-            ]
-          },
-          required: true,        
-          validator (prop) {
-            return prop.length > 3;
-          },
+        count: Number,
+        array: Array
+      },
+      data () {
+        return {
+          myCount: this.count,
+          myArray: this.array
+        }
+      },
+      methods: {
+        handleClick () {
+          this.myArray.push(4);
+          // this.count = 100;
+          // this.myCount = 100;
         }
       },
       template: `
-        <ul>
-          <li
-            v-for="person in list"
-            :key="person.name"
-          >{{ person.name }}</li>
-        </ul>
-      `
+        <div>
+          子組件：
+          {{ myArray }}
+          {{ myCount }}
+          <button @click="handleClick">点击</button>
+        </div>
+      `,
     });
     const vm = new Vue({
       el: '#app',
       data: {
-        list: [
-          { name: '杉杉'},
-          { name: '渡一'}
-        ],
-        // list: 2
+        count: 0,
+        array: [1, 2, 3]
       }
     })
   </script>
