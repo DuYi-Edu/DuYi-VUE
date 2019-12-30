@@ -10,25 +10,10 @@
 </head>
 
 <body>
-  <!-- 非prop特性会替换/合并（class、style）已有特性 -->
   <div id="app">
-    <my-cmp type="radio" class="haha"></my-cmp>
   </div>
 
   <script>
-    Vue.component('my-cmp', {
-      props: ['a'],
-      inheritAttrs: false,
-      mounted () {
-        console.log(this.$attrs);
-      },
-      template: `
-        <label>
-          选择：
-          <input v-bind="$attrs" />
-        </label>
-      `
-    })
     const vm = new Vue({
       el: '#app',
       data: {
