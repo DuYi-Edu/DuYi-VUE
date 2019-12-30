@@ -11,45 +11,12 @@
 
 <body>
   <div id="app">
-    父組件：
-    {{ array }}
-    <!-- <button @click="count ++">點擊</button> -->
-    <my-cmp :count="count" :array="array"></my-cmp>
   </div>
 
   <script>
-    Vue.component('my-cmp', {
-      props: {
-        count: Number,
-        array: Array
-      },
-      data () {
-        return {
-          myCount: this.count,
-          myArray: this.array
-        }
-      },
-      methods: {
-        handleClick () {
-          this.myArray.push(4);
-          // this.count = 100;
-          // this.myCount = 100;
-        }
-      },
-      template: `
-        <div>
-          子組件：
-          {{ myArray }}
-          {{ myCount }}
-          <button @click="handleClick">点击</button>
-        </div>
-      `,
-    });
     const vm = new Vue({
       el: '#app',
       data: {
-        count: 0,
-        array: [1, 2, 3]
       }
     })
   </script>

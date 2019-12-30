@@ -3249,3 +3249,88 @@ computed: {
   }
 }
 ```
+
+# 组件_非Prop特性
+一个非 prop 特性是指传向一个组件，但是该组件并没有相应 prop 定义的特性。
+
+因为显式定义的 prop 适用于向一个子组件传入信息，然而组件库的作者并不总能预见组件会被用于怎样的场景。这也是为什么组件可以接受任意的特性，而这些特性会被添加到这个组件的根元素上。
+
+例如，想象一下你通过一个 Bootstrap 插件使用了一个第三方的 ``<bootstrap-date-input>`` 组件，这个插件需要在其 ``<input>`` 上用到一个 data-date-picker 特性。我们可以将这个特性添加到你的组件实例上：
+
+```html
+<bootstrap-date-input data-date-picker="activated"></bootstrap-date-input>
+```
+
+然后这个 data-date-picker="activated" 特性就会自动添加到 <bootstrap-date-input> 的根元素上。
+
+## 替换/合并已有的特性
+
+想象一下 ``<bootstrap-date-input>`` 的模板是这样的：
+
+```html
+<input type="date" class="form-control">
+```
+
+为了给我们的日期选择器插件定制一个主题，我们可能需要像这样添加一个特别的类名：
+
+```html
+<bootstrap-date-input
+  data-date-picker="activated"
+  class="date-picker-theme-dark"
+></bootstrap-date-input>
+```
+
+在这种情况下，我们定义了两个不同的 class 的值：
+
+- form-control，这是在组件的模板内设置好的
+- date-picker-theme-dark，这是从组件的父级传入的
+
+对于绝大多数特性来说，从外部提供给组件的值会替换掉组件内部设置好的值。所以如果传入 type="text" 就会替换掉 type="date" 并把它破坏！庆幸的是，class 和 style 特性会稍微智能一些，即两边的值会被合并起来，从而得到最终的值：form-control date-picker-theme-dark。
+
+## 禁用特性继承
+如果你不希望组件的根元素继承特性，你可以在组件的选项中设置 ``inheritAttrs: false``。例如：
+```js
+Vue.component('my-component', {
+  inheritAttrs: false,
+  // ...
+})
+```
+这尤其适合配合实例的 $attrs 属性使用，该属性包含了传递给一个组件的特性名和特性值，例如：
+
+```js
+{
+  required: true,
+  placeholder: 'Enter your username'
+}
+```
+
+有了 ``inheritAttrs: false`` 和 ``$attrs``，你就可以手动决定这些特性会被赋予哪个元素。在撰写基础组件的时候是常会用到的：
+
+```js
+Vue.component('base-input', {
+  inheritAttrs: false,
+  props: ['label', 'value'],
+  template: `
+    <label>
+      {{ label }}
+      <input
+        v-bind="$attrs"
+        v-bind:value="value"
+        v-on:input="$emit('input', $event.target.value)"
+      >
+    </label>
+  `
+})
+```
+
+注意 inheritAttrs: false 选项不会影响 style 和 class 的绑定。
+
+这个模式允许你在使用基础组件的时候更像是使用原始的 HTML 元素，而不会担心哪个元素是真正的根元素：
+
+```html
+<base-input
+  v-model="username"
+  required
+  placeholder="Enter your username"
+></base-input>
+```
