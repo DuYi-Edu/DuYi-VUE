@@ -3312,7 +3312,7 @@ Vue.component('base-input', {
 
 注意：inheritAttrs: false 选项不会影响 style 和 class 的绑定。
 
-# 组件_监听子组件事件
+# 组件_监听组件事件
 首先，我们来写一个博文组件，如：
 ```js
 Vue.component('blog-post', {
@@ -3448,7 +3448,7 @@ methods: {
 ```
 
 ## 事件名
-不同于组件和prop，事件名不存在任何自动化的大小写转换。而是触发的事件名需要完全匹配兼听这歌事件所有的名称。如果触发一个camelCase名字的事件：
+不同于组件和prop，事件名不存在任何自动化的大小写转换。而是触发的事件名需要完全匹配监听这个事件所有的名称。如果触发一个camelCase名字的事件：
 ```js
 this.$emit('myEvent')
 ```
@@ -3475,7 +3475,7 @@ Vue.component('base-input', {
   `
 })
 ```
-这样处理，在有些时候是很有用的，不过在尝试监听一个类似<input>元素时，这并不是一个好主意，例如``<base-input>``组件可能做了重构，如：
+这样处理，在有些时候是很有用的，不过在尝试监听一个类似``<input>``元素时，这并不是一个好主意，例如``<base-input>``组件可能做了重构，如：
 ```html
 <label>
   姓名：
@@ -3492,13 +3492,13 @@ Vue.component('base-input', {
 }
 ```
 
-有了这个 $listeners 属性，我们基于可以配合 ``v-on="$listeners"`` 将所有的事件监听器指向这个组件的某个特定的子元素，如：
+有了这个 \$listeners 属性，我们可以配合 v-on="\$listeners" 将所有的事件监听器指向这个组件的某个特定的子元素，如：
 ```js
 Vue.component('base-input', {
   template: `
     <label>
       名字：
-      <input v-on="inputListeners" />
+      <input v-on="$listeners" />
     </label>
   `
 })

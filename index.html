@@ -11,13 +11,122 @@
 
 <body>
   <div id="app">
+    <!-- <div :style="{fontSize: postFontSize + 'em'}">
+      <blog-post 
+        v-for="post in posts"
+        @click.native="postFontSize += 0.1"
+        :post="post"
+        :key="post.id"
+      ></blog-post>
+    </div> -->
+
+    <!-- <base-input1 v-model="name"></base-input1> -->
+
+    <!-- <base-checkbox v-model="checked"></base-checkbox> -->
+    <base-input2 :value.sync="name"></base-input2>
   </div>
 
   <script>
+    // 点击了子组件的button -> 告诉父组件去增加字号 -> 可以更改控制字体大小的数据
+    // 子组件内触发事件   在父组件内监听子组件的事件
+    // 自定义事件 enlarge-text
+    // $emit(name)
+    // v-bind .sync 语法糖 :prop @updata:prop
+    Vue.component('base-input2', {
+      props: {
+        value: String
+      },
+      template: `
+        <label>
+          姓名：
+          <input type="text" :value="value" @input="$emit('update:value', $event.target.value)"/>
+        </label>
+      `
+    })
+
+
+    Vue.component('base-checkbox', {
+      model: {
+        prop: 'checked',
+        event: 'change',
+      },
+      props: {
+        checked: Boolean,
+      },
+      template: `
+        <input
+          type="checkbox"
+          :checked="checked"
+          @change="$emit('change', $event.target.checked)"
+        >
+      `
+    })
+    
+    Vue.component('base-input1', {
+      // model: {
+      //   prop: 'checked',
+      //   event: 'change',
+      // },
+      props: {
+        value: String
+      },
+      template: `
+        <label>
+          姓名：
+          <input type="text" :value="value" @input="$emit('input', $event.target.value)"/>
+        </label>
+      `
+    })
+    
+    Vue.component('base-input', {
+      mounted () {
+        console.log(this.$listeners);
+      },
+      template: `
+        <label>
+          姓名：
+          <input type="text" v-on="$listeners"/>
+        </label>
+      `
+    })
+
+    Vue.component('blog-post', {
+      props: {
+        post: Object
+      },
+      template: `
+        <div>
+          <h3>{{ post.title }}</h3>
+          <button @click="$emit('enlarge-text', 0.2)">放大字號</button>
+          <div>{{ post.content }}</div>
+        </div>
+      `
+    })
+    
     const vm = new Vue({
       el: '#app',
       data: {
-      }
+        postFontSize: 1, // 1 em
+        posts: [
+          { title: '標題', content: '内容内容内容', id: 0 },
+          { title: '標題1', content: '内容内容内容', id: 1 },
+          { title: '標題2', content: '内容内容内容', id: 2 },
+          { title: '標題3', content: '内容内容内容', id: 3 },
+        ],
+        name: 'shanshan',
+        checked: true
+      },
+      methods: {
+        onEnlargeText (e) {
+          this.postFontSize += e;
+        },
+        onFocus () {
+          console.log('focus');
+        },
+        onBlur () {
+          console.log('Blur');
+        },
+      },
     })
   </script>
 </body>
