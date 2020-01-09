@@ -6,95 +6,57 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <link rel="stylesheet" href="./pikaday.css">
-  <script src="./pikaday.js"></script>
   <script src="./vue.js"></script>
 </head>
 
 <body>
   <div id="app">
-    <my-cmp ref="myCmp">
-      <!-- <cmp-a>
-        <cmp-b>
-          <cmp-c></cmp-c>
-        </cmp-b>
-      </cmp-a> -->
-    </my-cmp>
-    <!-- <input v-for="item in 3" ref="input"/> -->
+    <my-cmp @click="fn"></my-cmp>
+    <my-cmp1></my-cmp1>
   </div>
 
   <script>
+    Vue.prototype.$bus = new Vue();
+
     Vue.component('my-cmp', {
-      provide () {
-        return {
-          share: this.share
-        }
-      },
       data () {
         return {
-          share: 'share',
+          name: 'my-cmp',
         }
       },
-      mounted () {
-        this.datePicker('inputA');
-        this.datePicker('inputB');
-      },
-      beforeDestroy () {
-        // this.picker.destroy();
-      },
       methods: {
-        datePicker (refName) {
-          var picker = new Pikaday ({
-            field: this.$refs[refName],
-            format: 'YYYY-MM-DD'
-          })
-
-          this.$once('hook:beforeDestroy', () => {
-            picker.destroy();
-          })
-        },
+        onClick () {
+          // this.$listeners.click(this.name);
+          // console.log(this.$listeners);
+          this.$bus.$emit('bus', this.name);
+        }
       },
-      template: `<div>
-        <input ref="inputA"/>
-        <input ref="inputB"/>
-        <button @click="$destroy()">销毁自己</button>
-      </div>`
-    });
+      template: `
+        <div @click="onClick">my-cmp</div>
+      `
+    })
 
-    Vue.component('cmp-a', {
-      inject: ['share'],
+    Vue.component('my-cmp1', {
       mounted () {
-        console.log(this.share);
+        this.$bus.$on('bus', (val) => {
+          console.log(val);
+        })
       },
-      template: '<div><slot></slot></div>'
-    });
-
-    Vue.component('cmp-b', {
-      inject: ['share'],
-      mounted () {
-        console.log(this.share);
-      },
-      // mounted () {
-      //   this.$root.name = 'duyi';
-      // },
-      template: '<div><slot></slot></div>'
-    });
-    
-    Vue.component('cmp-c', {
-      mounted () {
-
-        console.log(this.$parent.share || this.$parent.$parent.share || this.$parent.$parent.$parent.root);
-      },
-      template: '<div><slot></slot></div>'
-    });
-
+      template: `
+        <div>my-cmp1</div>
+      `
+    })
     const vm = new Vue({
       el: '#app',
-      mounted () {
-        console.log(this.$refs);
-      },
       data: {
-        name: 'shanshan',
+      },
+      mounted () {
+        // console.log(this.$children[0].name);
+      },
+      methods: {
+        fn (name) {
+          console.log(name);
+        }
       }
     })
   </script>
