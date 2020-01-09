@@ -11,53 +11,74 @@
 
 <body>
   <div id="app">
-    <my-cmp @click="fn"></my-cmp>
-    <my-cmp1></my-cmp1>
+    <cmp-1></cmp-1>
+    <cmp-2></cmp-2>
   </div>
 
   <script>
-    Vue.prototype.$bus = new Vue();
-
-    Vue.component('my-cmp', {
+    const mixin = {
       data () {
         return {
-          name: 'my-cmp',
+          a: 'a',
         }
       },
+      mounted () {
+        // console.log('mixin');
+      },
       methods: {
-        onClick () {
-          // this.$listeners.click(this.name);
-          // console.log(this.$listeners);
-          this.$bus.$emit('bus', this.name);
+        fn () {
+          console.log('mixin fn');
+        }
+      }
+    };
+
+    Vue.mixin({
+      created () {
+        // console.log('全局混入 created 钩子');
+        const xxx = this.$options.xxx;
+
+        if(xxx) {
+          console.log('xxxx');
+        }
+      },
+    });
+
+    Vue.component('cmp-1', {
+      xxx: 'xxx',
+      mixins: [mixin],
+      data () {
+        return {
+          a: 'b'
+        }
+      },
+      mounted () {
+        // console.log(this.a);
+        this.fn();
+      },
+      methods: {
+        fn () {
+          // console.log('cmp fn');
         }
       },
       template: `
-        <div @click="onClick">my-cmp</div>
+        <div>cmp-1</div>
       `
     })
 
-    Vue.component('my-cmp1', {
-      mounted () {
-        this.$bus.$on('bus', (val) => {
-          console.log(val);
-        })
+    Vue.component('cmp-2', {
+      data () {
+        return {
+          a: 'a'
+        }
       },
       template: `
-        <div>my-cmp1</div>
+        <div>cmp-2</div>
       `
     })
+    
     const vm = new Vue({
       el: '#app',
-      data: {
-      },
-      mounted () {
-        // console.log(this.$children[0].name);
-      },
-      methods: {
-        fn (name) {
-          console.log(name);
-        }
-      }
+      data: {},
     })
   </script>
 </body>
