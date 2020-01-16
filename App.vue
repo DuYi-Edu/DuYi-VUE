@@ -1,6 +1,8 @@
 <template>
   <div class="app">
-    <date-picker />
+    <!-- v-model :value @input :date @choose-date -->
+
+    <date-picker v-model="date"/>
   </div>
 </template>
 
@@ -11,6 +13,11 @@ export default {
   components: {
     DatePicker,
   },  
+  data () {
+    return {
+      date: new Date(),
+    }
+  },
 }
 </script>
 
