@@ -1,39 +1,19 @@
-
 <template>
-  <div>
-    xxx
-    {{ msg }}
-    <p>我是app 组件的 p元素</p>
-    <base-son />
+  <div class="app">
+    <date-picker />
   </div>
 </template>
 
 <script>
-// 一个组件
-
-// 结构、样式、行为
-
-// html、css、js
-
-// Vue.component('my-cmp', {
-//   template: `<><>`
-// })
-import baseSon from './Son';
+import DatePicker from './DatePicker';
 
 export default {
   components: {
-    baseSon
-  },
-  data () {
-    return {
-      msg: 'hello world',
-    }
-  },
+    DatePicker,
+  },  
 }
 </script>
 
-<style>
-div {
-  background-color: red;
-}
+<style scoped>
+
 </style>
