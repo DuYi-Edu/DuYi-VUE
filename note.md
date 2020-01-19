@@ -4873,3 +4873,67 @@ yarn global add @vue/cli-service-global
 
 ## 安装vscode插件
 名字：Vetur。用于高亮.vue文件代码
+
+# 练习_树形组件
+
+数据：
+
+```js
+data: [
+  {
+    label: "一级 1",
+    children: [
+      {
+        label: "二级 1-1",
+        children: [
+          {
+            label: "三级 1-1-1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    label: "一级 2",
+    children: [
+      {
+        label: "二级 2-1",
+        children: [
+          {
+            label: "三级 2-1-1"
+          }
+        ]
+      },
+      {
+        label: "二级 2-2",
+        children: [
+          {
+            label: "三级 2-2-1"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    label: "一级 3",
+    children: [
+      {
+        label: "二级 3-1",
+        children: [
+          {
+            label: "三级 3-1-1"
+          }
+        ]
+      },
+      {
+        label: "二级 3-2",
+        children: [
+          {
+            label: "三级 3-2-1"
+          }
+        ]
+      }
+    ]
+  }
+]
+```
