@@ -5228,7 +5228,7 @@ render () {
 
 ### v-text
 ```html
-<div domPropsInnerText="<p>i am a p</p>"></div>
+<div domPropsTextContent="<p>i am a p</p>"></div>
 ```
 
 ### v-html
