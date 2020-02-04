@@ -5468,7 +5468,7 @@ children的结果为：
     <div>我是头部</div>
   </template>
 
-  <template v-slot:header>
+  <template v-slot:default>
     <div>div</div>
   </template>
 
@@ -5481,7 +5481,7 @@ children的结果为：
 slots()的结果为：
 ```js
 {
-  default:[<div>div</div>, <p>p</p>, template],
+  default:[<div>div</div>],
   header: [<div>我是头部</div>]
 }
 ```
