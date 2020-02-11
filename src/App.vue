@@ -5,12 +5,12 @@
 </template>
 
 <script>
-import BaseDemo from './components/BaseDemo10';
+import BaseDemo from './components/BaseDemo5';
 
 export default {
   name: 'app',
   components: {
-    BaseDemo
+    BaseDemo,
   },
 }
 </script>
