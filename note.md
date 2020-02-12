@@ -5713,7 +5713,15 @@ Vue提供一个一个 mode 特性，可以给多个元素过渡应用不同的�
 使用方法：
 ```js
 components: {
-  AsyncCmp: () => import (url);
+  AsyncCmp: () => import ('url');
+}
+```
+
+将多个需要同时加载的组件合并到一个文件中：
+```js
+components: {
+  AsyncCmp1: () => import(/* webpackChunkName: "async" */ 'url'),
+  AsyncCmp2: () => import(/* webpackChunkName: "async" */ 'url'),
 }
 ```
 
