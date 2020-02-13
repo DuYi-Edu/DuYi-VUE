@@ -5938,4 +5938,4 @@ const router = new VueRouter({
     { path: '/a', component: A, alias: '/b' }
   ]
 })
-`
+```
