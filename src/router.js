@@ -16,7 +16,11 @@ const routes = [
   },
   {
     path: '/learn',
-    component: () => import('./views/Learn'),
+    // component: () => import('./views/Learn'),
+    components: {
+      default: () => import('./views/Learn'),
+      student: () => import('./views/Student'),
+    },
   },
   {
     path: '/student',
@@ -63,6 +67,11 @@ const routes = [
   {
     path: '/question/:id',
     name: 'question',
+    // props: true,
+    props: route => ({
+      // name: route.name,
+      id: route.params.id 
+    }),
     component: () => import('./views/Question'),
   },
 ];
