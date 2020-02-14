@@ -1,0 +1,11 @@
+{
+  "status": "200",
+  "msg": "OK",
+  "data": {
+    "title": "到底什么是es6中的class（类）？怎么实现class（类）？",
+    "prev": null,
+    "prevId": null,
+    "next": "什么是es6箭头函数？与普通函数主要区别在哪里？到底该不该使用箭头函数？",
+    "nextId": 87609870
+  }
+}

@@ -56,7 +56,15 @@ const routes = [
       },
     ],
   },
-  
+  {
+    path: '/course/:userId',
+    component: () => import('./views/About'),
+  },
+  {
+    path: '/question/:id',
+    name: 'question',
+    component: () => import('./views/Question'),
+  },
 ];
 
 export default new VueRouter({
