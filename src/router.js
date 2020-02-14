@@ -29,6 +29,10 @@ const routes = [
   {
     path: '/about',
     component: () => import('./views/About'),
+    beforeEnter (to, from, next) {
+      console.log('beforeEnter');
+      next();
+    },
   },
   {
     path: '/activity',
@@ -76,7 +80,36 @@ const routes = [
   },
 ];
 
-export default new VueRouter({
+const router = new VueRouter({
   mode: 'history',
   routes,
 });
+
+router.beforeEach((to, from, next) => {
+  // console.log(to);
+  // console.log(from);
+  // next(false);
+  // if(to.path === '/student') {
+  //   next('/about');
+  //   // this.$router.push()
+  // } else {
+    console.log('beforeEach');
+    next();
+  // }
+  // next(new Error('不让跳转'));
+})
+
+router.beforeResolve((to, from, next) => {
+  console.log('beforeResolve');
+  next();
+})
+
+router.afterEach((to, from) => {
+  console.log('afterEach');
+})
+
+router.onError(err => {
+  console.log(err.message);
+})
+
+export default router;
