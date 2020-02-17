@@ -12,8 +12,9 @@
       </div>
     </div>
     <div class="container">
-      <router-view></router-view>
-      <router-view name="student"></router-view>
+      <transition>
+        <router-view></router-view>
+      </transition>
     </div>
   </div>
 </template>
@@ -33,6 +34,23 @@ export default {
 </script>
 
 <style scoped>
+#app {
+  /* overflow-x: hidden; */
+}
+/* enter */
+.v-enter {
+  transform: translateX(1000px);
+}
+
+.v-enter-active {
+  transition: all .3s;
+}
+
+.v-enter-to {
+  transform: translateX(0px);
+}
+
+
 .nav-box {
   display: flex;
   justify-content: space-between;
