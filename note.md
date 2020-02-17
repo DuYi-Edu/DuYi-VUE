@@ -6249,3 +6249,24 @@ beforeRouteLeave (to, from, next) {
 10. 调用全局的 afterEach 钩子。
 11. 触发 DOM 更新。
 12. 用创建好的实例调用 beforeRouteEnter 守卫中传给 next 的回调函数。
+
+# VueRouter_路由元信息
+定义路由的时候可以配置 meta 字段，用于自定义一些信息。
+
+```js
+const router = new VueRouter({
+  routes: [
+    {
+      path: '/foo',
+      component: Foo,
+      children: [
+        {
+          path: 'bar',
+          component: Bar,
+          meta: { requiresLogin: true }
+        }
+      ]
+    }
+  ]
+})
+```

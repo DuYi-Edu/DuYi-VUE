@@ -7,19 +7,13 @@
 <script>
 export default {
   beforeRouteEnter (to, from, next) {
-    // console.log(this);
-    // ...
-    // this.$axios.
     next(vm => {
-      console.log(vm.name);
     });
   },
   beforeRouteUpdate (to, from, next) {
-    console.log('update');
     next();
   },
   beforeRouteLeave (to, from, next) {
-    console.log('beforeRouteLeave');
     next();
   },
   data () {
