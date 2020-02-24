@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <!-- router-link -->
+  <!-- <span onclick="routerChange('/')">首页</span>
+  <span onclick="routerChange('/about')">关于</span> -->
+
+  <a onclick="routerChange('/')">首页</a>
+  <a onclick="routerChange('/about')">关于</a>
+
+  <!-- router-view -->
+  <div id="view"></div>
+
+  <script>
+    // document.addEventListener('DOMContentLoaded', () => {
+    //   view.innerHTML = location.hash.slice(1);
+    // })
+
+    // window.addEventListener('hashchange', () => {
+    //   view.innerHTML = location.hash.slice(1);
+    // })
+
+    // function routerChange (pathname) {
+    //   location.hash = pathname;
+    // }
+
+
+    // history
+    function routerChange (pathname) {
+      history.pushState(null, null, pathname);
+      view.innerHTML = location.pathname;
+    }
+
+    window.addEventListener('popstate', () => {
+      view.innerHTML = location.pathname;
+    })
+
+
+    // hash hsitory
+    // # url会更改、浏览器可以前进和后退、浏览器不刷新
+    // 不和服务端交流
+
+    // 无 #
+    // 服务端的同事配合
+
+  </script>
+
+</body>
+</html>
