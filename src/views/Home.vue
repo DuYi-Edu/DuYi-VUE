@@ -40,15 +40,9 @@ export default {
     // ...mapMutations(['countIncrement']),
     handleClick () {
       const num = Math.floor( Math.random() * 10 );
-      this.$store.commit(COUNT_INCREMENT, { num });
-      // this.$store.commit({
-      //   type: COUNT_INCREMENT,
-      //   num,
-      // });
-
-      // this.$store.commit(CHANGE_OBJ);
-
-      // this.countIncrement()
+      this.$store.dispatch('countIncrement', { num }).then(() => {
+        alert('count值已增加');
+      })
     },
     handleInput (e) {
       this.$store.commit(UPDATE_MSG, { value: e.target.value });
