@@ -1,14 +1,19 @@
 <template>
   <div class="home">
-    <button @click="$store.state.count ++">点击</button>
+    <button @click="handleClick">点击</button>
     {{ storeCount }}
     {{ countDouble }}
     {{ countAdd(3) }}
+    {{ obj }}
+    
+    <!-- <input :value="msg" @input="handleInput" /> {{ msg }} -->
+    <input v-model="msg" /> {{ msg }}
   </div>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapState, mapGetters, mapMutations } from 'vuex';
+import { COUNT_INCREMENT, CHANGE_OBJ, UPDATE_MSG } from '@/store/mutation-types';
 
 export default {
   data () {
@@ -20,7 +25,34 @@ export default {
     ...mapState({
       storeCount: 'count',// state => state.count + 10
     }),
-    ...mapGetters(['countAdd', 'countDouble'])
+    ...mapState(['obj']),
+    ...mapGetters(['countAdd', 'countDouble']),
+    msg: {
+      get () {
+        return this.$store.state.msg;
+      },
+      set (value) {
+        this.$store.commit(UPDATE_MSG, { value });
+      }
+    },
+  },
+  methods: {
+    // ...mapMutations(['countIncrement']),
+    handleClick () {
+      const num = Math.floor( Math.random() * 10 );
+      this.$store.commit(COUNT_INCREMENT, { num });
+      // this.$store.commit({
+      //   type: COUNT_INCREMENT,
+      //   num,
+      // });
+
+      // this.$store.commit(CHANGE_OBJ);
+
+      // this.countIncrement()
+    },
+    handleInput (e) {
+      this.$store.commit(UPDATE_MSG, { value: e.target.value });
+    }
   },
   created () {
     console.log(this.$store.state.count);
