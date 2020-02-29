@@ -2,7 +2,7 @@
   <div class="home">
     <button @click="handleClick">点击</button>
     {{ storeCount }}
-    {{ countDouble }}
+    {{ countDouble }} {{ $store.getters['count/countDouble'] }}
     {{ countAdd(3) }}
     {{ obj }}
     
@@ -22,11 +22,11 @@ export default {
     }
   },
   computed: {
-    ...mapState({
+    ...mapState('count', {
       storeCount: 'count',// state => state.count + 10
     }),
     ...mapState(['obj']),
-    ...mapGetters(['countAdd', 'countDouble']),
+    ...mapGetters('count', ['countAdd', 'countDouble']),
     msg: {
       get () {
         return this.$store.state.msg;
@@ -40,7 +40,7 @@ export default {
     // ...mapMutations(['countIncrement']),
     handleClick () {
       const num = Math.floor( Math.random() * 10 );
-      this.$store.dispatch('countIncrement', { num }).then(() => {
+      this.$store.dispatch('count/countIncrement', { num }).then(() => {
         alert('count值已增加');
       })
     },
