@@ -22,11 +22,11 @@ export default {
     }
   },
   computed: {
-    ...mapState('count', {
+    ...mapState({
       storeCount: 'count',// state => state.count + 10
     }),
     ...mapState(['obj']),
-    ...mapGetters('count', ['countAdd', 'countDouble']),
+    ...mapGetters(['countAdd', 'countDouble']),
     msg: {
       get () {
         return this.$store.state.msg;
@@ -40,7 +40,7 @@ export default {
     // ...mapMutations(['countIncrement']),
     handleClick () {
       const num = Math.floor( Math.random() * 10 );
-      this.$store.dispatch('count/countIncrement', { num }).then(() => {
+      this.$store.dispatch('countIncrement', { num }).then(() => {
         alert('count值已增加');
       })
     },
