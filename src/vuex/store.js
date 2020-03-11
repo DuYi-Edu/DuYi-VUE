@@ -45,16 +45,13 @@ export class Store {
     // 安装模块
     installModule(this, state, [], this._modules.root);
 
+    // 重置store的vm实例
     resetStoreVM(this, state);
   }
 
   get state () {
     return this._vm.state;
   }
-}
-
-function getNestedState (rootState, path) {
-  return path.reduce((state, key) => state[key], rootState);
 }
 
 function installModule (store, rootState, path, module) {
@@ -80,6 +77,7 @@ function installModule (store, rootState, path, module) {
     parentState[moduleName] = module.state;
   }
   
+  // 循环遍历模块的getters，注册_wrappedGetters
   module.forEachGetter(function (getterFn, getterName) {
     const type = namespace + getterName;
     registerGetter(store, type, getterFn, local);
@@ -92,7 +90,17 @@ function installModule (store, rootState, path, module) {
 
 }
 
+function getNestedState (rootState, path) {
+  return path.reduce((state, key) => state[key], rootState);
+}
+
 function registerGetter (store, type, getter, local) {
+  /**
+   * @desc 注册getter
+   * @param { String } type - getter 类型
+   * @param { Function } getter - getter 函数
+   * @param { Object } local - 本地数据
+   */
   store._wrappedGetters[type] = function (store) {
     return getter(local.state, local.getters, store.state, store.getters);
   };
@@ -107,9 +115,7 @@ function resetStoreVM (store, state) {
 
   store.getters = {};
   const computed = {
-    // countDouble () {
-    //   return wrappedGetters['countDouble']();
-    // }
+    // countDouble () { return wrappedGetters['countDouble'](); }
   };
 
   const wrappedGetters = store._wrappedGetters;
