@@ -52,7 +52,19 @@ export default class ModuleCollection {
       return module.getChild(key)
     }, this.root)
   }
-  
+
+  getNamespace (path) {
+    /**
+     * @desc 获取到路径对应的命名空间名字
+     * @param { Array } path - 路径
+     */
+
+    let module = this.root;
+    return path.reduce((namespace, key) => {
+      module = module.getChild(key);
+      return namespace + (module.namespaced ? key + '/' : '');
+    }, '');
+  }
 }
 
 

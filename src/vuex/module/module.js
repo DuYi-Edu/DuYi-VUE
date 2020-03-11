@@ -5,6 +5,7 @@ export default class Module {
     this._rawModule = rawModule || {};
     this._children = rawModule.modules || {};
     this.state = rawModule.state || {};
+    this.namespaced = !!rawModule.namespaced;
   }
 
   getChild (key) {
@@ -19,5 +20,11 @@ export default class Module {
     forEachValue(this._children, (value, key) => {
       fn(value, key);
     });
+  }
+
+  forEachGetter (fn) {
+    if(this._rawModule.getters) {
+      forEachValue(this._rawModule.getters, fn);
+    }
   }
 }

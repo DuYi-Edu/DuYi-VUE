@@ -1,8 +1,12 @@
 <template>
   <div class="home">
     {{ $store.state.count }}
+    {{ $store.getters.countDouble }}
+    <hr />
     {{ $store.state.student.num }}
-
+    <!-- {{ $store.getters.numDouble }} -->
+    {{ $store.getters['student/numDouble'] }}
+    <hr />
     <button @click="handleClick">click</button>
   </div>
 </template>
@@ -10,7 +14,7 @@
 <script>
 export default {
   mounted () {
-    // console.log(this.$store);
+    // console.log(this.$store.getters);
   },
   methods: {
     handleClick () {
