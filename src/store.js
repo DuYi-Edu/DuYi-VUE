@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Vuex from './vuex';
+import Vuex from 'vuex';
 
 Vue.use(Vuex);
 
@@ -26,6 +26,12 @@ export default new Vuex.Store({
           return 10;
         }
       },
+      mutations: {
+        numAdd (state, { payload }) {
+          console.log(payload)
+          state.num += num;
+        }
+      },
     }
   },
   state: {
@@ -35,6 +41,11 @@ export default new Vuex.Store({
     countDouble (state, getters) {
       // console.log(getters);
       return state.count * 2;
+    }
+  },
+  mutations: {
+    countAdd (state, { num }) {
+      state.count += num;
     }
   },
 })

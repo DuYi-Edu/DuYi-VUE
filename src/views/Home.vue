@@ -18,9 +18,14 @@ export default {
   },
   methods: {
     handleClick () {
-      this.$store.state.count ++;
-      this.$store.state.student.num ++;
-
+      this.$store.commit('countAdd', { num: 5 })
+      this.$store.commit({
+        type: 'student/numAdd',
+        payload: { num: 10 },
+      })
+      // this.$store.commit('student/numAdd', { num: 10})
+      // this.$store.state.count ++;
+      // this.$store.state.student.num ++;
     }
   }
 }
