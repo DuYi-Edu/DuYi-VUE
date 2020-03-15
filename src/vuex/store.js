@@ -1,27 +1,25 @@
 import applyMixin from './mixin';
 import ModuleCollection from './module/module-collection';
-import { forEachValue } from './util';
+import { forEachValue, isObject } from './util';
 
 /**
- * 1. 将各个模块上的getters都统一的放到store上，无论是root上的还是其他子模块上
- *   this._wrappedGetters = {
- *     countDouble (state) { return state.count * 2},
- *     numDouble (state) { return state.num * 2}
- *   },
- * 2. 通过_wrappedGetters 得到 this.getters
- * 3. getters应该是vm上的计算属性
- * 4. 要考虑命名空间的问题，加上命名空间，会发生两个改变：
- *  4.1 getter中的属性名字前面需要加上 模块的名字，比如说：student/numDouble
- *  4.2 getter 函数接收的参数有改变，分别是 本模块的state，本模块的getters，根模块的state，根模块的getters
+ * 1. 将各个模块上的mutations都统一的放到store上，无论是root上的还是其他子模块上
+ *  store._mutations = {
+ *    countAdd: [fn, fn],
+ *    numAdd: [fn]
+ *  }
+ * 
+ * 2. 如果有命名空间。对应的mutation函数的名字前应该加上命名空间的名字，如：
+ *  store._mutations = {
+ *    countAdd: [fn],
+ *    student/numAdd: [fn]
+ *    student/countAdd: [fn]
+ *  }
+ * 
+ * 3. 由于需要commit一个mutation。所以在store上应有commit方法
+ * 
+ * 4. 在严格模式下，只能通过mutation更改state，通过其他的方式需要报出警告
  */
-
-// 配置的getters：
-// coutDouble -> 2*count
-// _wrappedGetters:
-// countDouble -> fn -> countDouble()
-
-// a b c
-// a/b/c/geterName
 
 let Vue;
 
@@ -41,7 +39,12 @@ export class Store {
     this._makeLocalGetterCache = {};
     this._modules = new ModuleCollection(options);
 
+    this._mutations = {};
+    this._commiting = false;
+    this.strict = !!options.strict;
+
     const state = this._modules.root.state;
+
     // 安装模块
     installModule(this, state, [], this._modules.root);
 
@@ -51,6 +54,23 @@ export class Store {
 
   get state () {
     return this._vm.state;
+  }
+
+  commit (_type, _payload) {
+    const { type, payload } = unifyObjectStyle(_type, _payload);
+    // 入口函数数组
+    const entry = this._mutations[type];
+
+    this._withCommit(() => {
+      entry.forEach(handler => handler(payload));
+    })
+  }
+
+  _withCommit (fn) {
+    const commiting = this._commiting;
+    this._commiting = true;
+    fn();
+    this._commiting = commiting;
   }
 }
 
@@ -76,6 +96,11 @@ function installModule (store, rootState, path, module) {
     // 3. 向父模块的satte上挂载当前子模块的state
     parentState[moduleName] = module.state;
   }
+
+  module.forEachMutation(function (mutationFn, mutationName) {
+    const type = namespace + mutationName;
+    registerMutation(store, type, mutationFn, local);
+  })
   
   // 循环遍历模块的getters，注册_wrappedGetters
   module.forEachGetter(function (getterFn, getterName) {
@@ -97,6 +122,7 @@ function getNestedState (rootState, path) {
 function registerGetter (store, type, getter, local) {
   /**
    * @desc 注册getter
+   * @param { Store } store - store 实例
    * @param { String } type - getter 类型
    * @param { Function } getter - getter 函数
    * @param { Object } local - 本地数据
@@ -105,6 +131,21 @@ function registerGetter (store, type, getter, local) {
     return getter(local.state, local.getters, store.state, store.getters);
   };
 };
+
+function registerMutation (store, type, handler, local) {
+  /**
+   * @desc 注册mutation
+   * @param { Store } store - store 实例
+   * @param { String } type - mutation 类型
+   * @param { Function } handler - mutation 函数
+   * @param { Object } local - 本地数据
+   */
+
+  const entry = store._mutations[type] || (store._mutations[type] = []);
+  entry.push(function (payload) {
+    handler.call(store, local.state, payload);
+  });
+}
 
 function resetStoreVM (store, state) {
   /**
@@ -137,6 +178,9 @@ function resetStoreVM (store, state) {
     computed,
   })
 
+  if(store.strict) {
+    enableStrictMode(store);
+  }
 }
 
 function makeLocalContext (store, namespace, path) {
@@ -188,4 +232,39 @@ function makeLocalGetters (store, namespace) {
   }
 
   return store._makeLocalGetterCache[namespace];
+}
+
+function unifyObjectStyle (type, payload) {
+  /**
+   * @desc 使对象风格统一
+   * @returns { Object } 返回值中包含提交的mutation的类型和载荷
+   */
+
+  if(isObject(type)) {
+    payload = type;
+    type = type.type;
+  }
+
+   return {
+     type,
+     payload
+   }
+}
+
+function enableStrictMode (store) {
+  /**
+   * @desc 是否可以在严格模式下更新state
+   * @param { Store } store - store 实例
+   */
+
+   store._vm.$watch(function () {
+     return this.state;
+   }, () => {
+    if(!store._commiting) {
+      throw new Error(`[vuex] do not mutate vuex store state outside mutation handlers.`)
+    }
+   }, {
+     deep: true,
+     sync: true, // 开启同步
+   })
 }

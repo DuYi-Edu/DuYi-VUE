@@ -4,6 +4,7 @@ import Vuex from './vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
+  strict: true,
   modules: {
     student: {
       namespaced: true,
@@ -19,11 +20,18 @@ export default new Vuex.Store({
       },
       getters: {
         numDouble (state, getters, rootState, rootGetters) {
-          console.log(state, getters, rootState, rootGetters);
           return state.num * 2;
         },
         test () {
           return 10;
+        }
+      },
+      mutations: {
+        numAdd (state, { num }) {
+          state.num += num;
+        },
+        countAdd (state, {num}) {
+          state.num += num;
         }
       },
     }
@@ -35,6 +43,13 @@ export default new Vuex.Store({
     countDouble (state, getters) {
       // console.log(getters);
       return state.count * 2;
+    }
+  },
+  mutations: {
+    countAdd (state, { num }) {
+      // state -> 本模块中的state
+      console.log(this);
+      state.count += num;
     }
   },
 })
