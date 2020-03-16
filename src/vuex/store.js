@@ -1,24 +1,26 @@
 import applyMixin from './mixin';
 import ModuleCollection from './module/module-collection';
-import { forEachValue, isObject } from './util';
+import { forEachValue, isObject, isPromise } from './util';
 
 /**
- * 1. 将各个模块上的mutations都统一的放到store上，无论是root上的还是其他子模块上
- *  store._mutations = {
+ * 1. 将各个模块上的actions都统一的放到store上，无论是root上的还是其他子模块上
+ *  store._actions = {
  *    countAdd: [fn, fn],
  *    numAdd: [fn]
  *  }
  * 
- * 2. 如果有命名空间。对应的mutation函数的名字前应该加上命名空间的名字，如：
- *  store._mutations = {
+ * 2. 如果有命名空间。对应的action函数的名字前应该加上命名空间的名字，如：
+ *  store._actions = {
  *    countAdd: [fn],
  *    student/numAdd: [fn]
  *    student/countAdd: [fn]
  *  }
  * 
- * 3. 由于需要commit一个mutation。所以在store上应有commit方法
+ * 3. 由于需要dispatch一个action。所以在store上应有dispatch方法
  * 
- * 4. 在严格模式下，只能通过mutation更改state，通过其他的方式需要报出警告
+ * 4. action 函数的返回值应该promise
+ * 
+ * 5. 如果一个模块拥有命名空间，那么它内部的action函数，在提交mutation/ 分发其他action时，不需要再type前加上命名空间
  */
 
 let Vue;
@@ -43,6 +45,17 @@ export class Store {
     this._commiting = false;
     this.strict = !!options.strict;
 
+    this._actions = {};
+
+    const store = this;
+    const { commit, dispatch } = this;
+    this.commit = function (type, payload) {
+      return commit.call(store, type, payload);
+    }
+    this.dispatch = function (type, payload) {
+      return dispatch.call(store, type, payload);
+    }
+
     const state = this._modules.root.state;
 
     // 安装模块
@@ -64,6 +77,19 @@ export class Store {
     this._withCommit(() => {
       entry.forEach(handler => handler(payload));
     })
+  }
+
+  dispatch (_type, _payload) {
+    const { type, payload } = unifyObjectStyle(_type, _payload);
+    const entry = this._actions[type];
+
+    if(!entry) { return };
+
+    const result = entry.length > 1
+      ? Promise.all(entry.map(handler => handler(payload)))
+      : entry[0](payload);
+
+    return result;
   }
 
   _withCommit (fn) {
@@ -101,6 +127,11 @@ function installModule (store, rootState, path, module) {
     const type = namespace + mutationName;
     registerMutation(store, type, mutationFn, local);
   })
+
+  module.forEachAction(function (actionFn, actionName) {
+    const type = namespace + actionName;
+    registerAction(store, type, actionFn, local);
+  });
   
   // 循环遍历模块的getters，注册_wrappedGetters
   module.forEachGetter(function (getterFn, getterName) {
@@ -144,6 +175,34 @@ function registerMutation (store, type, handler, local) {
   const entry = store._mutations[type] || (store._mutations[type] = []);
   entry.push(function (payload) {
     handler.call(store, local.state, payload);
+  });
+}
+
+function registerAction (store, type, handler, local) {
+  /**
+   * @desc 注册action
+   * @param { Store } store - store 实例
+   * @param { String } type - action 类型
+   * @param { Function } handler - action 函数
+   * @param { Object } local - 本地数据
+   */
+  const entry = store._actions[type] || (store._actions[type] = []);
+
+  entry.push(function (payload) {
+    let res = handler.call(store, {
+      commit: local.commit,
+      dispatch: local.dispatch,
+      getters: local.getters,
+      rootGetters: store.getters,
+      state: local.state,
+      rootState: store.state
+    }, payload);
+
+    if(!isPromise(res)) {
+      res = Promise.resolve(res);
+    }
+
+    return res;
   });
 }
 
@@ -191,7 +250,19 @@ function makeLocalContext (store, namespace, path) {
    * @param { Array } path - 模块路径
    */
   const noNamespace = namespace === '';
-  const local = {};
+
+  const local = {
+    commit: noNamespace ? store.commit : (_type, _payload) => {
+      let {type, payload} = unifyObjectStyle(_type, _payload);
+      type = namespace + type;
+      store.commit(type, payload);
+    },
+    dispatch: noNamespace ? store.dispatch : (_type, _payload) => {
+      let {type, payload} = unifyObjectStyle(_type, _payload);
+      type = namespace + type;
+      store.dispatch(type, payload);
+    },
+  };
 
   Object.defineProperties(local, {
     state: {

@@ -33,4 +33,10 @@ export default class Module {
       forEachValue(this._rawModule.mutations, fn);
     }
   }
+
+  forEachAction (fn) {
+    if(this._rawModule.actions) {
+      forEachValue(this._rawModule.actions, fn);
+    }
+  }
 }

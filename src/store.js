@@ -34,6 +34,15 @@ export default new Vuex.Store({
           state.num += num;
         }
       },
+      actions: {
+        countAddAction ({ commit, dispatch }, payload) {
+          // commit('countAdd', payload)
+          dispatch('testAction');
+        },
+        testAction () {
+          console.log('yyy');
+        }
+      },
     }
   },
   state: {
@@ -48,18 +57,15 @@ export default new Vuex.Store({
   mutations: {
     countAdd (state, { num }) {
       // state -> 本模块中的state
-      console.log(this);
       state.count += num;
     }
   },
+  actions: {
+    countAddAction ({ commit, dispatch }, payload) {
+      commit('countAdd', payload)
+    },
+    testAction () {
+      console.log('xxxx');
+    }
+  },
 })
-
-// state = {
-//   count: 0,
-//   student: {
-//     num: 100,
-//     a: {
-//       name: 'a',
-//     }
-//   }
-// }

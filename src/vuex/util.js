@@ -11,3 +11,13 @@ export function isObject (obj) {
 
   return typeof obj === 'object' && obj !== null
 }
+
+export function isPromise (val) {
+  /**
+   * @desc 判断数据是否为promise
+   * @param { * }
+   * @returns { Boolean }
+   */
+
+  return val && typeof val.then === 'function';
+}
