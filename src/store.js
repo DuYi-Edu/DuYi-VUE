@@ -36,11 +36,11 @@ export default new Vuex.Store({
       },
       actions: {
         countAddAction ({ commit, dispatch }, payload) {
-          // commit('countAdd', payload)
-          dispatch('testAction');
+          commit('countAdd', payload)
+          // dispatch('testAction');
         },
         testAction () {
-          console.log('yyy');
+          // console.log('yyy');
         }
       },
     }

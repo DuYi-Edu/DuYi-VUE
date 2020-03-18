@@ -2,27 +2,6 @@ import applyMixin from './mixin';
 import ModuleCollection from './module/module-collection';
 import { forEachValue, isObject, isPromise } from './util';
 
-/**
- * 1. 将各个模块上的actions都统一的放到store上，无论是root上的还是其他子模块上
- *  store._actions = {
- *    countAdd: [fn, fn],
- *    numAdd: [fn]
- *  }
- * 
- * 2. 如果有命名空间。对应的action函数的名字前应该加上命名空间的名字，如：
- *  store._actions = {
- *    countAdd: [fn],
- *    student/numAdd: [fn]
- *    student/countAdd: [fn]
- *  }
- * 
- * 3. 由于需要dispatch一个action。所以在store上应有dispatch方法
- * 
- * 4. action 函数的返回值应该promise
- * 
- * 5. 如果一个模块拥有命名空间，那么它内部的action函数，在提交mutation/ 分发其他action时，不需要再type前加上命名空间
- */
-
 let Vue;
 
 export function install (_Vue) {
@@ -40,12 +19,11 @@ export class Store {
     this._wrappedGetters = {};
     this._makeLocalGetterCache = {};
     this._modules = new ModuleCollection(options);
-
     this._mutations = {};
     this._commiting = false;
     this.strict = !!options.strict;
-
     this._actions = {};
+    this._modulesNamespaceMap = {};
 
     const store = this;
     const { commit, dispatch } = this;
@@ -73,6 +51,8 @@ export class Store {
     const { type, payload } = unifyObjectStyle(_type, _payload);
     // 入口函数数组
     const entry = this._mutations[type];
+
+    console.log(type);
 
     this._withCommit(() => {
       entry.forEach(handler => handler(payload));
@@ -112,7 +92,11 @@ function installModule (store, rootState, path, module) {
   const isRoot = path.length === 0;
   const namespace = store._modules.getNamespace(path);
 
-  const local = makeLocalContext(store, namespace, path);
+  if(module.namespaced) {
+    store._modulesNamespaceMap[namespace] = module;
+  }
+
+  const local = module.context = makeLocalContext(store, namespace, path);
 
   if(!isRoot) {
     // 1. 获取到父模块的state
