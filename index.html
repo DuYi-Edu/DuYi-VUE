@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <script src="./vue.js"></script>
+</head>
+<body>
+  <!-- 被控制的区域 模板 -->
+  <div id="app">
+    <!-- {{ msg }} -->
+    <!-- {{ 5201314 }}
+    {{ '婀娜多姿、亭亭玉立' }}
+    {{ true }}
+    {{ ['邓旭明', '小刘', '王小宝'] }} -->
+    <!-- {{ {name: 'dxm', age: '88'} }} -->
+
+    <!-- {{ 1+1 }}
+    {{ !0 }}
+    {{ 1+1 === 3 ? '正常人' : '邓哥' }} -->
+    
+    <!-- {{ var deng="shuaige" }} -->
+    <!-- {{ if(1+1 === 2) {
+      return 'common'
+    } }} -->
+
+    {{ mrDeng.father }}
+  </div>
+
+  <div id="duyi"></div>
+
+  <script>
+    // const oDiv = document.getElementById('#app');
+    // const data = '邓哥你真帅，真像宋小宝';
+    // oDiv.innerText = data;
+
+    // element 元素
+    // 控制id为app的区域 
+
+    // $mount  vm.$mount('#app');
+
+    // 插值表达式 {{ js }}
+    // 数据
+    // 数字、字符串、boolean、array、object，unefined\null
+    // 表达式
+    // 要写经过声明的数据，否则报错
+    const vm = new Vue({
+      el: '#app',
+      data: {
+        msg: '邓哥你真帅，真像宋小宝',
+        mrDeng: {
+          wife: '小刘',
+          son: '王小宝'
+        }
+      }
+    });
+  </script>
+</body>
+</html>
